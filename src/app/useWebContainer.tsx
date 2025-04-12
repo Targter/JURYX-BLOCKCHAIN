@@ -30,19 +30,6 @@ export const useWeb = () => {
     };
 
     boot();
-
-    
-  // 🧹 Cleanup on tab close/reload
-//   const cleanup = () => {
-//     delete window.__webContainer__;
-//     console.log('🧼 WebContainer instance cleared');
-//   };
-//   window.addEventListener('beforeunload', cleanup);
-
-//   // Remove listener when hook unmounts (SSR safety)
-//   return () => {
-//     window.removeEventListener('beforeunload', cleanup);
-//   };
   }, []);
 
   return instance;
