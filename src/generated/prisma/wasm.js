@@ -121,6 +121,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
+  role: 'role',
   isPublic: 'isPublic',
   files: 'files'
 };
@@ -130,7 +131,8 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -149,7 +151,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.Role = exports.$Enums.Role = {
+  ORGANIZER: 'ORGANIZER',
+  USER: 'USER',
+  PANELIST: 'PANELIST'
+};
 
 exports.Prisma.ModelName = {
   User: 'User'

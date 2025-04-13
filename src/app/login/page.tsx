@@ -1,19 +1,27 @@
 "use client"
 
 import React, { useState } from 'react';
-
-type Role = 'Organizer' | 'Panelist' | 'User';
+import axios from 'axios';
+import {useRouter} from 'next/navigation';
+type Role = 'ORGANIZER' | 'PANELIST' | 'USER';
 
 const Login: React.FC = () => {
+  const router = useRouter(); 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [role, setRole] = useState<Role>('User');
+  const [role, setRole] = useState<Role>('USER');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
     const loginData = { email, password, role };
+    // console.log("loginFun called")
     console.log('Login Data:', loginData);
+    const response = await axios.post("/api/login",{loginData})
+    console.log("a",response.data)
+    console.log(response.data.route)
+    router.push(response.data.route)
+
 
     // Send to backend or auth service here
   };
@@ -55,9 +63,9 @@ const Login: React.FC = () => {
               onChange={(e) => setRole(e.target.value as Role)}
               className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="Organizer">Organizer</option>
-              <option value="Panelist">Panelist</option>
-              <option value="User">User</option>
+              <option value="ORGANIZER">ORGANIZER</option>
+              <option value="PANELIST">PANELIST</option>
+              <option value="USER">USER</option>
             </select>   
           </div>
 

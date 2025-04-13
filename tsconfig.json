@@ -19,6 +19,7 @@
       }
     ],
     "paths": {
+      "@dbConfig/*": ["./src/dbConfig/*"],
       "@/*": ["./src/*"]
     }
   },

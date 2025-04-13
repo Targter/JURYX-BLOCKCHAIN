@@ -14,10 +14,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ORGANIZER
+  USER
+  PANELIST
+}
+
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String?
-  isPublic Boolean @default(false)
-  files    Json
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  role     Role
+  isPublic Boolean? @default(false)
+  files    Json?
 }
