@@ -1,19 +1,35 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useUploadStore } from '@/hooks/useStore';
-
+import axios from 'axios';
+import { format } from 'path';
 const UserUpload = () => {
   const router = useRouter(); 
   const {setFiles} = useUploadStore(); 
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files || files.length === 0) return
 
     // Convert FileList to Array
     const fileArray = Array.from(files)
 
+    // 
+    const formData = new FormData(); 
+    fileArray.forEach((file) => {
+      formData.append("files", file); // sends file
+      formData.append("paths", (file as any).webkitRelativePath); // sends folder path
+    });
+    // fileArrray[0].webkitRelativePath
+    console.log("formData",formData)
     // Optional: Log file paths (for debugging)
     // console.log(fileArray.map(f => f.webkitRelativePath))
+    const response  = await axios.post("/api/users/userFileUpload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    console.log("finalFormDAta",formData)
+    console.log(response)
     console.log(fileArray)
     setFiles(fileArray)
     // Navigate to preview and pass files using state
