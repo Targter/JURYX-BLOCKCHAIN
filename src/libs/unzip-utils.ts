@@ -13,7 +13,7 @@ export async function unzipFromUrl(zipUrl: string): Promise<Record<string, strin
   for (const entry of entries) {
     if (!entry.directory) {
       const content = await entry.getData?.(new TextWriter());
-      files[entry.filename] = content;
+      files[entry.filename ] = content ?? '';
     }
   }
 
