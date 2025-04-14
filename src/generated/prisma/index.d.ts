@@ -913,6 +913,8 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     isPublic: boolean | null
+    project: Uint8Array | null
+    storageUrl: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -921,6 +923,8 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     isPublic: boolean | null
+    project: Uint8Array | null
+    storageUrl: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -929,7 +933,8 @@ export namespace Prisma {
     password: number
     role: number
     isPublic: number
-    files: number
+    project: number
+    storageUrl: number
     _all: number
   }
 
@@ -948,6 +953,8 @@ export namespace Prisma {
     password?: true
     role?: true
     isPublic?: true
+    project?: true
+    storageUrl?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -956,6 +963,8 @@ export namespace Prisma {
     password?: true
     role?: true
     isPublic?: true
+    project?: true
+    storageUrl?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -964,7 +973,8 @@ export namespace Prisma {
     password?: true
     role?: true
     isPublic?: true
-    files?: true
+    project?: true
+    storageUrl?: true
     _all?: true
   }
 
@@ -1060,7 +1070,8 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     isPublic: boolean | null
-    files: JsonValue | null
+    project: Uint8Array | null
+    storageUrl: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1088,7 +1099,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     isPublic?: boolean
-    files?: boolean
+    project?: boolean
+    storageUrl?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1097,7 +1109,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     isPublic?: boolean
-    files?: boolean
+    project?: boolean
+    storageUrl?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1106,7 +1119,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     isPublic?: boolean
-    files?: boolean
+    project?: boolean
+    storageUrl?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1115,10 +1129,11 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     isPublic?: boolean
-    files?: boolean
+    project?: boolean
+    storageUrl?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "isPublic" | "files", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "isPublic" | "project" | "storageUrl", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1129,7 +1144,8 @@ export namespace Prisma {
       password: string
       role: $Enums.Role
       isPublic: boolean | null
-      files: Prisma.JsonValue | null
+      project: Uint8Array | null
+      storageUrl: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1558,7 +1574,8 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly isPublic: FieldRef<"User", 'Boolean'>
-    readonly files: FieldRef<"User", 'Json'>
+    readonly project: FieldRef<"User", 'Bytes'>
+    readonly storageUrl: FieldRef<"User", 'String'>
   }
     
 
@@ -1945,7 +1962,8 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     isPublic: 'isPublic',
-    files: 'files'
+    project: 'project',
+    storageUrl: 'storageUrl'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1959,29 +1977,12 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const NullableJsonNullValueInput: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull
-  };
-
-  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   export const NullsOrder: {
@@ -2047,16 +2048,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
+   * Reference to a field of type 'Bytes'
    */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
     
 
 
   /**
-   * Reference to a field of type 'QueryMode'
+   * Reference to a field of type 'Bytes[]'
    */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
     
 
 
@@ -2086,7 +2087,8 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isPublic?: BoolNullableFilter<"User"> | boolean | null
-    files?: JsonNullableFilter<"User">
+    project?: BytesNullableFilter<"User"> | Uint8Array | null
+    storageUrl?: StringNullableFilter<"User"> | string | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2095,7 +2097,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     isPublic?: SortOrderInput | SortOrder
-    files?: SortOrderInput | SortOrder
+    project?: SortOrderInput | SortOrder
+    storageUrl?: SortOrderInput | SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -2107,7 +2110,8 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isPublic?: BoolNullableFilter<"User"> | boolean | null
-    files?: JsonNullableFilter<"User">
+    project?: BytesNullableFilter<"User"> | Uint8Array | null
+    storageUrl?: StringNullableFilter<"User"> | string | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -2116,7 +2120,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     isPublic?: SortOrderInput | SortOrder
-    files?: SortOrderInput | SortOrder
+    project?: SortOrderInput | SortOrder
+    storageUrl?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -2133,7 +2138,8 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     isPublic?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
-    files?: JsonNullableWithAggregatesFilter<"User">
+    project?: BytesNullableWithAggregatesFilter<"User"> | Uint8Array | null
+    storageUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type UserCreateInput = {
@@ -2141,7 +2147,8 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     isPublic?: boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: Uint8Array | null
+    storageUrl?: string | null
   }
 
   export type UserUncheckedCreateInput = {
@@ -2150,7 +2157,8 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     isPublic?: boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: Uint8Array | null
+    storageUrl?: string | null
   }
 
   export type UserUpdateInput = {
@@ -2158,7 +2166,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPublic?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    storageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2167,7 +2176,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPublic?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    storageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateManyInput = {
@@ -2176,7 +2186,8 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     isPublic?: boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: Uint8Array | null
+    storageUrl?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2184,7 +2195,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPublic?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    storageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2193,7 +2205,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isPublic?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    files?: NullableJsonNullValueInput | InputJsonValue
+    project?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    storageUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2233,28 +2246,27 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type BytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type SortOrderInput = {
@@ -2268,7 +2280,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     isPublic?: SortOrder
-    files?: SortOrder
+    project?: SortOrder
+    storageUrl?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -2281,6 +2294,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     isPublic?: SortOrder
+    project?: SortOrder
+    storageUrl?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2289,6 +2304,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     isPublic?: SortOrder
+    project?: SortOrder
+    storageUrl?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -2346,31 +2363,33 @@ export namespace Prisma {
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -2383,6 +2402,14 @@ export namespace Prisma {
 
   export type NullableBoolFieldUpdateOperationsInput = {
     set?: boolean | null
+  }
+
+  export type NullableBytesFieldUpdateOperationsInput = {
+    set?: Uint8Array | null
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -2428,6 +2455,27 @@ export namespace Prisma {
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2502,28 +2550,32 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type NestedBytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
 

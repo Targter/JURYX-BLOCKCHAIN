@@ -21,10 +21,13 @@ enum Role {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  role     Role
-  isPublic Boolean? @default(false)
-  files    Json?
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  role       Role
+  isPublic   Boolean? @default(false)
+  project    Bytes?
+  storageUrl String?
+  // createdAt DateTime @default(now())
+  // updatedAt DateTime @updatedAt
 }

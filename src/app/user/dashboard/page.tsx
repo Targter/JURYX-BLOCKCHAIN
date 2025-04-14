@@ -1,6 +1,6 @@
 'use client';
 import React, { JSX, useEffect, useState } from 'react';
-import { useUploadStore, useWebStore } from '@/hooks/useStore';
+import { useUploadStore, useUserDetails, useWebStore } from '@/hooks/useStore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 // import { useWeb } from '@/app/useWebContainer';
@@ -25,6 +25,7 @@ type WebContainerFS = {
 const Page = () => {
     const router = useRouter();
   const { files } = useUploadStore();
+  
   const {setWebContainerData} = useWebStore();
   const [tree, setTree] = useState<FolderNode | null>(null);
   const [openedFile, setOpenedFile] = useState<FileNode | null>(null);

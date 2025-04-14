@@ -26,5 +26,7 @@ model User {
   password String
   role     Role
   isPublic Boolean? @default(false)
-  files    Json?
+  project  Bytes?
+  // createdAt DateTime @default(now())
+  // updatedAt DateTime @updatedAt
 }

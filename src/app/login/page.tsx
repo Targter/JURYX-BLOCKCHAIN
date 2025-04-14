@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {useRouter} from 'next/navigation';
+import { useUserDetails } from '@/hooks/useStore';
 type Role = 'ORGANIZER' | 'PANELIST' | 'USER';
 
 const Login: React.FC = () => {
   const router = useRouter(); 
+  const {setUser}  = useUserDetails();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState<Role>('USER');
@@ -19,7 +21,10 @@ const Login: React.FC = () => {
     console.log('Login Data:', loginData);
     const response = await axios.post("/api/login",{loginData})
     console.log("a",response.data)
+    setUser(response.data.user)
     console.log(response.data.route)
+
+
     router.push(response.data.route)
 
 

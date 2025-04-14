@@ -27,3 +27,28 @@ type WebContainerFS = {
     webContainerData: null,
     setWebContainerData: (container) => set({ webContainerData: container }),
   }));
+
+
+  // 
+
+  type Role = 'USER' | 'ORGANIZER' | 'PANELIST'
+
+type User = {
+  id: number
+  email: string
+  role: Role
+  isPublic?: boolean
+}
+
+type UserStore = {
+  user: User | null
+  setUser: (user: User) => void
+  clearUser: () => void
+}
+
+
+export const useUserDetails = create<UserStore>((set) => ({
+  user: null,
+  setUser: (user) => set({ user }),
+  clearUser: () => set({ user: null }),
+}))
