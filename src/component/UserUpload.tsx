@@ -19,35 +19,7 @@ const UserUpload = () => {
     // Convert FileList to Array
     const fileArray = Array.from(files)
     setLoading(true); 
-    // 
-    // const formData = new FormData(); 
-    // fileArray.forEach((file) => {
-    //   formData.append("files", file); // sends file
-    //   formData.append("paths", (file as any).webkitRelativePath); // sends folder path
-    // });
-    // fileArrray[0].webkitRelativePath
-    // console.log("formData",formData)
 
-    // const zipObj: Record<string, Uint8Array> = {};
-
-    // for (const file of Array.from(files)) {
-    //   const path = (file as any).webkitRelativePath;
-    //   if (!path) continue;
-
-    //   // Skip unwanted folders like node_modules or .git
-    //   if (path.includes('node_modules') || path.includes('.git')) continue;
-
-    //   const buffer = await file.arrayBuffer();
-    //   zipObj[path] = new Uint8Array(buffer);
-    // }
-
-    // // Create the zip in memory
-    // const zipped = zipSync(zipObj, { level: 9 });
-
-    // const formData = new FormData();
-    // formData.append('zip', new Blob([zipped], { type: 'application/zip' }), 'project.zip');
-
-    // Optional: Log file paths (for debugging)
     const zipBlob = await createZip(fileArray)
     const formData = new FormData();
     formData.append('project', zipBlob, 'project.zip');

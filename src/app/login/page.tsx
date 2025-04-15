@@ -1,34 +1,56 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useUserDetails } from '@/hooks/useStore';
+
 type Role = 'ORGANIZER' | 'PANELIST' | 'USER';
 
 const Login: React.FC = () => {
-  const router = useRouter(); 
-  const {setUser}  = useUserDetails();
+  const router = useRouter();
+  const { setUser } = useUserDetails();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState<Role>('USER');
+  const [code, setCode] = useState<string>('');
+  const [eventId, setEventId] = useState<string>('');
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const loginData = { email, password, role };
-    // console.log("loginFun called")
-    console.log('Login Data:', loginData);
-    const response = await axios.post("/api/login",{loginData})
-    console.log("a",response.data)
-    setUser(response.data.user)
-    console.log(response.data.route)
+    try {
+      let payload: any = { role };
 
+      if (role === 'ORGANIZER') {
+        payload.loginData = { email, password, role };
+      } else {
+        payload = {
+          role,
+          eventId,
+          code,
+          email,
+          password,
+        };
+      }
+      console.log("payload:",payload)
+      const response = await axios.post("/api/login", payload);
+      const user = response.data.user;
 
-    router.push(response.data.route)
+      setUser({
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        eventId: eventId || '',
+        isPublic: user.isPublic,
+      });
 
-
-    // Send to backend or auth service here
+      router.push(response.data.route);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.error || 'Login failed');
+    }
   };
 
   return (
@@ -39,27 +61,31 @@ const Login: React.FC = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+          {(role === 'ORGANIZER' || role === 'PANELIST' || role === 'USER') && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
@@ -71,8 +97,34 @@ const Login: React.FC = () => {
               <option value="ORGANIZER">ORGANIZER</option>
               <option value="PANELIST">PANELIST</option>
               <option value="USER">USER</option>
-            </select>   
+            </select>
           </div>
+
+          {(role === 'PANELIST' || role === 'USER') && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Event ID</label>
+                <input
+                  type="text"
+                  required
+                  value={eventId}
+                  onChange={(e) => setEventId(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Login Code</label>
+                <input
+                  type="text"
+                  required
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </>
+          )}
 
           <button
             type="submit"

@@ -4,53 +4,105 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { loginData } = body;
-
-    const { email, password, role } = loginData;
-    console.log(role)
-    // Check if user already exists
+    const { role } = body;
 
     let route = "/";
-      console.log('user:role',role)
-    if (role === "USER") {
-    route = "/user/dashboard";
-    } else if (role === "PANELIST") {
-    route = "/panelist";
-    } else if (role === "ORGANIZER") {
-    route = "/organizer";
-    }
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
+    if (role === "USER") route = "/user/dashboard";
+    else if (role === "PANELIST") route = "/panelist";
+    else if (role === "ORGANIZER") route = "/organizer";
 
-    if (existingUser) {
-      // ✅ User exists → Log in
+    if (role === "ORGANIZER") {
+      const { loginData } = body;
+      const { email, password } = loginData;
+
+      let existingUser = await prisma.user.findUnique({ where: { email } });
+
+      if (!existingUser) {
+        existingUser = await prisma.user.create({
+          data: {
+            email,
+            password,
+            role,
+          },
+        });
+      }
+
       return NextResponse.json({
         message: "Login successful",
         user: existingUser,
-        route
+        route,
       });
-    } else {
-      // 🆕 User does not exist → Create one
-      const newUser = await prisma.user.create({
+    }
+
+    // PANELIST or USER login using eventId + code
+    const { eventId, code, email, password } = body;
+
+    if (!eventId || !code || !email || !password) {
+      return NextResponse.json(
+        { error: "Missing credentials" },
+        { status: 400 }
+      );
+    }
+
+    let codeRecord = null;
+    if (role === "PANELIST") {
+      codeRecord = await prisma.panelistCode.findUnique({
+        where: { eventId },
+        include: { event: true },
+      });
+
+      if (!codeRecord || codeRecord.code !== code) {
+        return NextResponse.json(
+          { error: "Invalid panelist login code" },
+          { status: 401 }
+        );
+      }
+    } else if (role === "USER") {
+      console.log("userCalled")
+      codeRecord = await prisma.participantCode.findUnique({
+        where: { eventId },
+        include: { event: true },
+      });
+      console.log("c:",codeRecord)
+
+      if (!codeRecord || codeRecord.code !== code) {
+        return NextResponse.json(
+          { error: "Invalid participant login code" },
+          { status: 401 }
+        );
+      }
+    }
+
+    let user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      user = await prisma.user.create({
         data: {
           email,
-          password, // 👉 Consider hashing in production
+          password,
           role,
         },
       });
 
-    
-
-    console.log("router:",route)
-      return NextResponse.json({
-        message: "New user created",
-        user: newUser,
-        route
-      });
+      // Link code to this user
+      if (role === "PANELIST") {
+        await prisma.panelistCode.update({
+          where: { eventId },
+          data: { userId: user.id },
+        });
+      } else if (role === "USER") {
+        await prisma.participantCode.update({
+          where: { eventId },
+          data: { userId: user.id },
+        });
+      }
     }
+
+    return NextResponse.json({
+      message: "Login successful",
+      user,
+      route,
+    });
   } catch (error: any) {
     console.error("Login error:", error.message);
     return NextResponse.json(
