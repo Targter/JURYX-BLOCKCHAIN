@@ -7,9 +7,7 @@ export async function POST(request: NextRequest) {
     const { role } = body;
 
     let route = "/";
-    if (role === "USER") route = "/user/dashboard";
-    else if (role === "PANELIST") route = "/panelist";
-    else if (role === "ORGANIZER") route = "/organizer";
+    if (role === "ORGANIZER") route = "/organizer";
 
     if (role === "ORGANIZER") {
       const { loginData } = body;
@@ -36,7 +34,9 @@ export async function POST(request: NextRequest) {
 
     // PANELIST or USER login using eventId + code
     const { eventId, code, email, password } = body;
-
+    
+    if (role === "USER") route = `/event/${eventId}/user/upload`;
+    else if (role === "PANELIST") route = `/event/${eventId}/panelist`;
     if (!eventId || !code || !email || !password) {
       return NextResponse.json(
         { error: "Missing credentials" },

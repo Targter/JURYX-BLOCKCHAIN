@@ -1,71 +1,46 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/dbConfig/dbConfig';
-import { nanoid } from 'nanoid';
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/dbConfig/dbConfig'
+import { nanoid } from 'nanoid'
 
 export async function POST(req: NextRequest) {
-  try {
-    const { eventId, userId } = await req.json();
+  const { eventId } = await req.json()
 
-    if (!eventId || !userId) {
-      return NextResponse.json(
-        { error: "Missing eventId or userId" },
-        { status: 400 }
-      );
-    }
+  const newPanelistCode = nanoid(6)
+  const newParticipantCode = nanoid(6)
 
-    const newPanelistCode = nanoid(6);
-    const newParticipantCode = nanoid(6);
+  // Check if codes already exist
+  const existingPanelistCode = await prisma.panelistCode.findUnique({
+    where: { eventId },
+  })
 
-    // Check and update/create PanelistCode
-    const panelistCode = await prisma.panelistCode.findUnique({
-      where: { userId },
-    });
-    
-    if (panelistCode) {
-      await prisma.panelistCode.update({
-        where: { userId },
-        data: { code: newPanelistCode, eventId },
-      });
-    } else {
-      await prisma.panelistCode.create({
-        data: {
-          code: newPanelistCode,
-          eventId,
-          userId,
-        },
-      });
-    }
+  const existingParticipantCode = await prisma.participantCode.findUnique({
+    where: { eventId },
+  })
 
-    // Check and update/create ParticipantCode
-    const participantCode = await prisma.participantCode.findUnique({
-      where: { userId },
-    });
-
-    if (participantCode) {
-      await prisma.participantCode.update({
-        where: { userId },
-        data: { code: newParticipantCode, eventId },
-      });
-    } else {
-      await prisma.participantCode.create({
-        data: {
-          code: newParticipantCode,
-          eventId,
-          userId,
-        },
-      });
-    }
-
-    return NextResponse.json({
-      message: "Codes generated successfully",
-      panelistCode: newPanelistCode,
-      participantCode: newParticipantCode,
-    });
-  } catch (error: any) {
-    console.error("Error generating codes:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+  if (existingPanelistCode) {
+    await prisma.panelistCode.update({
+      where: { eventId },
+      data: { code: newPanelistCode },
+    })
+  } else {
+    await prisma.panelistCode.create({
+      data: { code: newPanelistCode, eventId },
+    })
   }
+
+  if (existingParticipantCode) {
+    await prisma.participantCode.update({
+      where: { eventId },
+      data: { code: newParticipantCode },
+    })
+  } else {
+    await prisma.participantCode.create({
+      data: { code: newParticipantCode, eventId },
+    })
+  }
+
+  return NextResponse.json({
+    panelistCode: newPanelistCode,
+    participantCode: newParticipantCode,
+  })
 }

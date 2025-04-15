@@ -7507,7 +7507,7 @@ export namespace Prisma {
     id: string
     code: string
     eventId: string
-    userId: number
+    userId: number | null
     _count: PanelistCodeCountAggregateOutputType | null
     _avg: PanelistCodeAvgAggregateOutputType | null
     _sum: PanelistCodeSumAggregateOutputType | null
@@ -7535,7 +7535,7 @@ export namespace Prisma {
     eventId?: boolean
     userId?: boolean
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | PanelistCode$userArgs<ExtArgs>
   }, ExtArgs["result"]["panelistCode"]>
 
   export type PanelistCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7544,7 +7544,7 @@ export namespace Prisma {
     eventId?: boolean
     userId?: boolean
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | PanelistCode$userArgs<ExtArgs>
   }, ExtArgs["result"]["panelistCode"]>
 
   export type PanelistCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7553,7 +7553,7 @@ export namespace Prisma {
     eventId?: boolean
     userId?: boolean
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | PanelistCode$userArgs<ExtArgs>
   }, ExtArgs["result"]["panelistCode"]>
 
   export type PanelistCodeSelectScalar = {
@@ -7566,28 +7566,28 @@ export namespace Prisma {
   export type PanelistCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "eventId" | "userId", ExtArgs["result"]["panelistCode"]>
   export type PanelistCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | PanelistCode$userArgs<ExtArgs>
   }
   export type PanelistCodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | PanelistCode$userArgs<ExtArgs>
   }
   export type PanelistCodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | PanelistCode$userArgs<ExtArgs>
   }
 
   export type $PanelistCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PanelistCode"
     objects: {
       event: Prisma.$EventPayload<ExtArgs>
-      user: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
       eventId: string
-      userId: number
+      userId: number | null
     }, ExtArgs["result"]["panelistCode"]>
     composites: {}
   }
@@ -7983,7 +7983,7 @@ export namespace Prisma {
   export interface Prisma__PanelistCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends PanelistCode$userArgs<ExtArgs> = {}>(args?: Subset<T, PanelistCode$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8413,6 +8413,25 @@ export namespace Prisma {
   }
 
   /**
+   * PanelistCode.user
+   */
+  export type PanelistCode$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * PanelistCode without action
    */
   export type PanelistCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8594,7 +8613,7 @@ export namespace Prisma {
     id: string
     code: string
     eventId: string
-    userId: number
+    userId: number | null
     _count: ParticipantCodeCountAggregateOutputType | null
     _avg: ParticipantCodeAvgAggregateOutputType | null
     _sum: ParticipantCodeSumAggregateOutputType | null
@@ -8622,7 +8641,7 @@ export namespace Prisma {
     eventId?: boolean
     userId?: boolean
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | ParticipantCode$userArgs<ExtArgs>
   }, ExtArgs["result"]["participantCode"]>
 
   export type ParticipantCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8631,7 +8650,7 @@ export namespace Prisma {
     eventId?: boolean
     userId?: boolean
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | ParticipantCode$userArgs<ExtArgs>
   }, ExtArgs["result"]["participantCode"]>
 
   export type ParticipantCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8640,7 +8659,7 @@ export namespace Prisma {
     eventId?: boolean
     userId?: boolean
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | ParticipantCode$userArgs<ExtArgs>
   }, ExtArgs["result"]["participantCode"]>
 
   export type ParticipantCodeSelectScalar = {
@@ -8653,28 +8672,28 @@ export namespace Prisma {
   export type ParticipantCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "eventId" | "userId", ExtArgs["result"]["participantCode"]>
   export type ParticipantCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | ParticipantCode$userArgs<ExtArgs>
   }
   export type ParticipantCodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | ParticipantCode$userArgs<ExtArgs>
   }
   export type ParticipantCodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | EventDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | ParticipantCode$userArgs<ExtArgs>
   }
 
   export type $ParticipantCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ParticipantCode"
     objects: {
       event: Prisma.$EventPayload<ExtArgs>
-      user: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       code: string
       eventId: string
-      userId: number
+      userId: number | null
     }, ExtArgs["result"]["participantCode"]>
     composites: {}
   }
@@ -9070,7 +9089,7 @@ export namespace Prisma {
   export interface Prisma__ParticipantCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends ParticipantCode$userArgs<ExtArgs> = {}>(args?: Subset<T, ParticipantCode$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9497,6 +9516,25 @@ export namespace Prisma {
      * Limit how many ParticipantCodes to delete.
      */
     limit?: number
+  }
+
+  /**
+   * ParticipantCode.user
+   */
+  export type ParticipantCode$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -10045,16 +10083,16 @@ export namespace Prisma {
     id?: StringFilter<"PanelistCode"> | string
     code?: StringFilter<"PanelistCode"> | string
     eventId?: StringFilter<"PanelistCode"> | string
-    userId?: IntFilter<"PanelistCode"> | number
+    userId?: IntNullableFilter<"PanelistCode"> | number | null
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type PanelistCodeOrderByWithRelationInput = {
     id?: SortOrder
     code?: SortOrder
     eventId?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     event?: EventOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -10068,14 +10106,14 @@ export namespace Prisma {
     OR?: PanelistCodeWhereInput[]
     NOT?: PanelistCodeWhereInput | PanelistCodeWhereInput[]
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "code" | "eventId" | "userId">
 
   export type PanelistCodeOrderByWithAggregationInput = {
     id?: SortOrder
     code?: SortOrder
     eventId?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     _count?: PanelistCodeCountOrderByAggregateInput
     _avg?: PanelistCodeAvgOrderByAggregateInput
     _max?: PanelistCodeMaxOrderByAggregateInput
@@ -10090,7 +10128,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"PanelistCode"> | string
     code?: StringWithAggregatesFilter<"PanelistCode"> | string
     eventId?: StringWithAggregatesFilter<"PanelistCode"> | string
-    userId?: IntWithAggregatesFilter<"PanelistCode"> | number
+    userId?: IntNullableWithAggregatesFilter<"PanelistCode"> | number | null
   }
 
   export type ParticipantCodeWhereInput = {
@@ -10100,16 +10138,16 @@ export namespace Prisma {
     id?: StringFilter<"ParticipantCode"> | string
     code?: StringFilter<"ParticipantCode"> | string
     eventId?: StringFilter<"ParticipantCode"> | string
-    userId?: IntFilter<"ParticipantCode"> | number
+    userId?: IntNullableFilter<"ParticipantCode"> | number | null
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type ParticipantCodeOrderByWithRelationInput = {
     id?: SortOrder
     code?: SortOrder
     eventId?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     event?: EventOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -10123,14 +10161,14 @@ export namespace Prisma {
     OR?: ParticipantCodeWhereInput[]
     NOT?: ParticipantCodeWhereInput | ParticipantCodeWhereInput[]
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "code" | "eventId" | "userId">
 
   export type ParticipantCodeOrderByWithAggregationInput = {
     id?: SortOrder
     code?: SortOrder
     eventId?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     _count?: ParticipantCodeCountOrderByAggregateInput
     _avg?: ParticipantCodeAvgOrderByAggregateInput
     _max?: ParticipantCodeMaxOrderByAggregateInput
@@ -10145,7 +10183,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ParticipantCode"> | string
     code?: StringWithAggregatesFilter<"ParticipantCode"> | string
     eventId?: StringWithAggregatesFilter<"ParticipantCode"> | string
-    userId?: IntWithAggregatesFilter<"ParticipantCode"> | number
+    userId?: IntNullableWithAggregatesFilter<"ParticipantCode"> | number | null
   }
 
   export type UserCreateInput = {
@@ -10466,35 +10504,35 @@ export namespace Prisma {
     id?: string
     code: string
     event: EventCreateNestedOneWithoutPanelistCodeInput
-    user: UserCreateNestedOneWithoutPanelistCodeInput
+    user?: UserCreateNestedOneWithoutPanelistCodeInput
   }
 
   export type PanelistCodeUncheckedCreateInput = {
     id?: string
     code: string
     eventId: string
-    userId: number
+    userId?: number | null
   }
 
   export type PanelistCodeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     event?: EventUpdateOneRequiredWithoutPanelistCodeNestedInput
-    user?: UserUpdateOneRequiredWithoutPanelistCodeNestedInput
+    user?: UserUpdateOneWithoutPanelistCodeNestedInput
   }
 
   export type PanelistCodeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type PanelistCodeCreateManyInput = {
     id?: string
     code: string
     eventId: string
-    userId: number
+    userId?: number | null
   }
 
   export type PanelistCodeUpdateManyMutationInput = {
@@ -10506,42 +10544,42 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ParticipantCodeCreateInput = {
     id?: string
     code: string
     event: EventCreateNestedOneWithoutParticipantCodeInput
-    user: UserCreateNestedOneWithoutParticipantCodeInput
+    user?: UserCreateNestedOneWithoutParticipantCodeInput
   }
 
   export type ParticipantCodeUncheckedCreateInput = {
     id?: string
     code: string
     eventId: string
-    userId: number
+    userId?: number | null
   }
 
   export type ParticipantCodeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     event?: EventUpdateOneRequiredWithoutParticipantCodeNestedInput
-    user?: UserUpdateOneRequiredWithoutParticipantCodeNestedInput
+    user?: UserUpdateOneWithoutParticipantCodeNestedInput
   }
 
   export type ParticipantCodeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ParticipantCodeCreateManyInput = {
     id?: string
     code: string
     eventId: string
-    userId: number
+    userId?: number | null
   }
 
   export type ParticipantCodeUpdateManyMutationInput = {
@@ -10553,7 +10591,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -10948,6 +10986,22 @@ export namespace Prisma {
     panelistId?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type PanelistCodeCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -10975,6 +11029,22 @@ export namespace Prisma {
 
   export type PanelistCodeSumOrderByAggregateInput = {
     userId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ParticipantCodeCountOrderByAggregateInput = {
@@ -11576,12 +11646,22 @@ export namespace Prisma {
     update?: XOR<XOR<EventUpdateToOneWithWhereWithoutPanelistCodeInput, EventUpdateWithoutPanelistCodeInput>, EventUncheckedUpdateWithoutPanelistCodeInput>
   }
 
-  export type UserUpdateOneRequiredWithoutPanelistCodeNestedInput = {
+  export type UserUpdateOneWithoutPanelistCodeNestedInput = {
     create?: XOR<UserCreateWithoutPanelistCodeInput, UserUncheckedCreateWithoutPanelistCodeInput>
     connectOrCreate?: UserCreateOrConnectWithoutPanelistCodeInput
     upsert?: UserUpsertWithoutPanelistCodeInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPanelistCodeInput, UserUpdateWithoutPanelistCodeInput>, UserUncheckedUpdateWithoutPanelistCodeInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type EventCreateNestedOneWithoutParticipantCodeInput = {
@@ -11604,10 +11684,12 @@ export namespace Prisma {
     update?: XOR<XOR<EventUpdateToOneWithWhereWithoutParticipantCodeInput, EventUpdateWithoutParticipantCodeInput>, EventUncheckedUpdateWithoutParticipantCodeInput>
   }
 
-  export type UserUpdateOneRequiredWithoutParticipantCodeNestedInput = {
+  export type UserUpdateOneWithoutParticipantCodeNestedInput = {
     create?: XOR<UserCreateWithoutParticipantCodeInput, UserUncheckedCreateWithoutParticipantCodeInput>
     connectOrCreate?: UserCreateOrConnectWithoutParticipantCodeInput
     upsert?: UserUpsertWithoutParticipantCodeInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutParticipantCodeInput, UserUpdateWithoutParticipantCodeInput>, UserUncheckedUpdateWithoutParticipantCodeInput>
   }
@@ -11776,6 +11858,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type EventCreateWithoutOrganizerInput = {
@@ -12096,13 +12205,13 @@ export namespace Prisma {
   export type PanelistCodeCreateWithoutEventInput = {
     id?: string
     code: string
-    user: UserCreateNestedOneWithoutPanelistCodeInput
+    user?: UserCreateNestedOneWithoutPanelistCodeInput
   }
 
   export type PanelistCodeUncheckedCreateWithoutEventInput = {
     id?: string
     code: string
-    userId: number
+    userId?: number | null
   }
 
   export type PanelistCodeCreateOrConnectWithoutEventInput = {
@@ -12113,13 +12222,13 @@ export namespace Prisma {
   export type ParticipantCodeCreateWithoutEventInput = {
     id?: string
     code: string
-    user: UserCreateNestedOneWithoutParticipantCodeInput
+    user?: UserCreateNestedOneWithoutParticipantCodeInput
   }
 
   export type ParticipantCodeUncheckedCreateWithoutEventInput = {
     id?: string
     code: string
-    userId: number
+    userId?: number | null
   }
 
   export type ParticipantCodeCreateOrConnectWithoutEventInput = {
@@ -12228,13 +12337,13 @@ export namespace Prisma {
   export type PanelistCodeUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutPanelistCodeNestedInput
+    user?: UserUpdateOneWithoutPanelistCodeNestedInput
   }
 
   export type PanelistCodeUncheckedUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ParticipantCodeUpsertWithoutEventInput = {
@@ -12251,13 +12360,13 @@ export namespace Prisma {
   export type ParticipantCodeUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    user?: UserUpdateOneRequiredWithoutParticipantCodeNestedInput
+    user?: UserUpdateOneWithoutParticipantCodeNestedInput
   }
 
   export type ParticipantCodeUncheckedUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type EventCreateWithoutRoundsInput = {
