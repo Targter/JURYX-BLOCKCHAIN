@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useUploadStore, useUserDetails } from '@/hooks/useStore';
 import { createZip } from '@/libs/zip-utils';
 // import { zipSync, strToU8 } from 'fflate';
@@ -12,6 +12,7 @@ const UserUpload = () => {
   // 
   const {user} = useUserDetails();
   console.log("user:",user?.email)
+  const {eventId} = useParams(); 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files || files.length === 0) return
@@ -37,7 +38,7 @@ const UserUpload = () => {
     console.log(fileArray)
     setFiles(fileArray)
     // Navigate to preview and pass files using state
-    router.push("/user/dashboard")
+    router.push(`/event/${eventId}/user/dashboard`)
   }
 
   return (

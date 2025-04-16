@@ -1,18 +1,29 @@
-// /api/panelist/getAllUsers.ts
+// app/api/panelist/teams/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/dbConfig/dbConfig";
 
-import { NextResponse } from "next/server";
-import { prisma } from "@dbConfig/dbConfig";
+export async function POST(req: NextRequest) {
+  try {
+    const { eventId } = await req.json();
 
-export async function GET() {
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      email: true,
-      isPublic:true,
-      storageUrl: true, // This is the S3 zip URL
-      role:true,
-    },
-  });
-
-  return NextResponse.json({ users });
+    const teams = await prisma.team.findMany({
+      where: { eventId },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            storageUrl:true
+          },
+        },
+        scores: true,
+      },
+    });
+    console.log(teams)
+    return NextResponse.json({ teams });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Error fetching teams" }, { status: 500 });
+  }
 }

@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     // PANELIST or USER login using eventId + code
     const { eventId, code, email, password } = body;
     
-    if (role === "USER") route = `/event/${eventId}/user/upload`;
+    if (role === "USER") route = `/event/${eventId}/user`;
     else if (role === "PANELIST") route = `/event/${eventId}/panelist`;
     if (!eventId || !code || !email || !password) {
       return NextResponse.json(
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
 
     let codeRecord = null;
     if (role === "PANELIST") {
+      console.log("panelist")
       codeRecord = await prisma.panelistCode.findUnique({
         where: { eventId },
         include: { event: true },

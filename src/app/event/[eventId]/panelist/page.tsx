@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { unzipFromUrl } from '@/libs/unzip-utils'
 import { WebContainer } from '@webcontainer/api'
+import { useParams } from 'next/navigation'
 
 type UserProject = {
   id: string;
@@ -12,6 +13,13 @@ type UserProject = {
   storageUrl: string | null;
   role: string;
 };
+type Team = {
+  id: string;
+  name: string;
+  projectUrl: string | null; // URL associated with the team project
+  participants: UserProject[]; // Team members
+};
+// 
 type FileNode = {
   type: 'file';
   name: string;
@@ -28,7 +36,10 @@ type FolderNode = {
 type TreeNode = FileNode | FolderNode;
 
 export default function PanelistDashboard() {
-  const [users, setUsers] = useState<UserProject[]>([]);
+  
+  const {eventId} = useParams();
+  // const [users, setUsers] = useState<UserProject[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]); 
   const [loading, setLoading] = useState(false);
   const [serverUrl, setServerUrl] = useState<string | null>(null);
   const [webContainerInstance, setWebContainerInstance] = useState<WebContainer | null>(null);
@@ -79,11 +90,12 @@ export default function PanelistDashboard() {
     // Remove the empty root and return immediate children
     return root.children;
   };
-
   useEffect(() => {
+    console.log("this calling......")
     async function fetchUsers() {
-      const { data } = await axios.get('/api/panelist');
-      setUsers(data.users);
+      const { data } = await axios.post('/api/panelist',{eventId});
+      setTeams(data.teams);
+      console.log(data)
     }
     fetchUsers();
   }, []);
@@ -168,6 +180,57 @@ export default function PanelistDashboard() {
       setLoading(false);
     }
   };
+
+  // 
+
+  const [teamScores, setTeamScores] = useState<Record<string, { score: number; remarks: string }>>({});
+
+// Update state on score or remarks change
+const handleScoreChange = (e: React.ChangeEvent<HTMLInputElement>, teamId: string) => {
+  setTeamScores(prevState => ({
+    ...prevState,
+    [teamId]: { ...prevState[teamId], score: Number(e.target.value) }
+  }));
+};
+
+const handleRemarksChange = (e: React.ChangeEvent<HTMLTextAreaElement>, teamId: string) => {
+  setTeamScores(prevState => ({
+    ...prevState,
+    [teamId]: { ...prevState[teamId], remarks: e.target.value }
+  }));
+};
+
+// Submit the score for a team
+const handleScoreSubmission = async (e: React.FormEvent, team: Team) => {
+  e.preventDefault();
+  const { score, remarks } = teamScores[team.id];
+
+  try {
+    await axios.post('/api/panelist/score', {
+      teamId: team.id,
+      score,
+      remarks,
+      roundId: 'your-round-id' // You need to get the current round's ID
+    });
+    alert('Score submitted successfully!');
+  } catch (error) {
+    console.error('Error submitting score:', error);
+    alert('Failed to submit score.');
+  }
+};
+
+// 
+const [rounds, setRounds] = useState([]);
+const [selectedRoundId, setSelectedRoundId] = useState<string | null>(null);
+
+useEffect(() => {
+  const fetchRounds = async () => {
+    const { data } = await axios.post('/api/panelist/rounds', { eventId });
+    setRounds(data.rounds);
+  };
+  fetchRounds();
+}, [eventId]);
+
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Panelist Dashboard</h1>
@@ -197,33 +260,110 @@ export default function PanelistDashboard() {
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">User Projects</h2>
-        {users.length === 0 ? (
-          <p className="text-gray-500">Loading users...</p>
-        ) : (
-          <ul className="space-y-4">
-            {users.map(user => (
-              <li key={user.id} className="border p-4 rounded-lg shadow">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="font-medium">{user.email}</p>
-                    <p className="text-sm text-gray-600">
-                      Project: {user.storageUrl ? "Available" : "Not Uploaded"}
-                    </p>
-                  </div>
-                  {user.storageUrl && (
-                    <button
-                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
-                      onClick={() => previewProject(user.storageUrl!)}
-                      disabled={loading}
-                    >
-                      {loading ? 'Loading Preview...' : 'Preview'}
-                    </button>
-                  )}
+        {teams?.length === 0 ? (
+        <p className="text-gray-500">Loading teams...</p>
+      ) : (
+        <div className="space-y-4">
+          {teams?.map(team => (
+            <div key={team.id} className="border p-4 rounded-lg shadow">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="font-medium">{team.name}</p>
+                  <p className="text-sm text-gray-600">
+                    Team Project: {team.projectUrl ? "Available" : "Not Uploaded"}
+                  </p>
                 </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                {team.projectUrl && (
+                  <button
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                    onClick={() => previewProject(team.projectUrl!)}
+                    disabled={loading}
+                  >
+                    {loading ? 'Loading Preview...' : 'Preview'}
+                  </button>
+                )}
+              </div>
+
+              <div className="mt-4">
+                <p className="font-medium text-lg">Team Members</p>
+                <ul className="space-y-2">
+                  {team?.participants?.map(member => (
+                    <li key={member.id} className="border p-2 rounded-md flex justify-between">
+                      <div>
+                        <p className="font-medium">{member.email}</p>
+                        <p className="text-sm text-gray-600">
+                          Project: {member.storageUrl ? "Available" : "Not Uploaded"}
+                        </p>
+                      </div>
+                      {member.storageUrl && (
+                        <button
+                          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                          onClick={() => previewProject(member.storageUrl!)}
+                          disabled={loading}
+                        >
+                          {loading ? 'Loading Preview...' : 'Preview'}
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* roundes */}
+              <div className="mb-6">
+  <label className="block font-medium mb-2">Select Round:</label>
+  <select
+    value={selectedRoundId ?? ''}
+    onChange={(e) => setSelectedRoundId(e.target.value)}
+    className="border px-3 py-2 rounded w-full"
+  >
+    <option value="" disabled>Select a round</option>
+    {rounds.map((round: any) => (
+      <option key={round.id} value={round.id}>
+        {round.order}. {round.name}
+      </option>
+    ))}
+  </select>
+</div>
+
+              {/* scording section */}
+              <div className="mt-4">
+            <h3 className="font-medium">Score the Team</h3>
+            <form onSubmit={(e) => handleScoreSubmission(e, team)}>
+              <div className="mb-2">
+                <label className="text-sm font-medium">Score</label>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  required
+                  className="w-full p-2 border rounded-lg"
+                  placeholder="Enter score"
+                  onChange={(e) => handleScoreChange(e, team.id)}
+                />
+              </div>
+              <div className="mb-2">
+                <label className="text-sm font-medium">Remarks</label>
+                <textarea
+                  rows={3}
+                  className="w-full p-2 border rounded-lg"
+                  placeholder="Enter remarks"
+                  onChange={(e) => handleRemarksChange(e, team.id)}
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Submit Score
+              </button>
+            </form>
+          </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 'use client';
 import React, { JSX, useEffect, useState } from 'react';
 import { useUploadStore, useUserDetails, useWebStore } from '@/hooks/useStore';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 // import { useWeb } from '@/app/useWebContainer';
 type FileNode = {
@@ -25,7 +25,7 @@ type WebContainerFS = {
 const Page = () => {
     const router = useRouter();
   const { files } = useUploadStore();
-  
+  const {eventId} = useParams(); 
   const {setWebContainerData} = useWebStore();
   const [tree, setTree] = useState<FolderNode | null>(null);
   const [openedFile, setOpenedFile] = useState<FileNode | null>(null);
@@ -37,7 +37,7 @@ const Page = () => {
     const ab = async ()=>{
 
         if (!files || files.length === 0) {
-            router.push('/user/upload');
+            router.push(`/event/${eventId}/user/upload`);
           }
         if (files && files.length > 0) {
           const root: FolderNode = { type: 'folder', name: 'root', children: [] };
@@ -159,7 +159,7 @@ const Page = () => {
 
       {/* Code Viewer */}
       <div className="w-2/3 p-4 overflow-y-auto bg-white">
-      <Link href="/user/preview">
+      <Link href={`/event/${eventId}/user/preview`}>
   <button className="bg-red-600 p-2 rounded-2xl hover:bg-red-900 float-right">
     Preview
   </button>

@@ -45,8 +45,9 @@ const Login: React.FC = () => {
         eventId: eventId || '',
         isPublic: user.isPublic,
       });
-      // console.log("resonse.data",response.data)
+      console.log("resonse.data",response.data)
       router.push(response.data.route);
+      console.log('end')
     } catch (err: any) {
       console.error(err);
       alert(err.response?.data?.error || 'Login failed');

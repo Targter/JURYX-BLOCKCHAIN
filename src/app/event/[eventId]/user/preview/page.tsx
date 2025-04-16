@@ -9,17 +9,6 @@ const PreviewPage = () => {
   const webcontainer = useWeb();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [url, setUrl] = useState("");
-//   const [webcontainer,setWebContainer] = useState<WebContainer>()
-//   
-// const main = async ()=>{
-//     const webcontainerInstance = await WebContainer.boot();
-//     console.log("this called: ",webcontainerInstance)
-//     setWebContainer(webcontainerInstance)
-// }
-// useEffect(()=>{
-//     main();
-// },[])
-
   
 // 
   useEffect(() => {
