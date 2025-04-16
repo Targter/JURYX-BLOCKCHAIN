@@ -53,7 +53,7 @@ export default function UserEventDashboard() {
       console.log("res.data",res.data)
       setMessage(`Team created: ${res.data.team.name}`);
       // redirect to dashboard or team detail
-      router.push(`./uploads`);
+      router.push(`./user/upload`);
     } catch (err: any) {
       setMessage(err.response?.data?.error || "Failed to create team");
     }
@@ -71,7 +71,7 @@ export default function UserEventDashboard() {
       });
       console.log("resJoinTeam:",res.data)
       setMessage("Successfully joined the team!");
-      router.push(`./uploads`);
+      router.push(`./user/upload`);
     } catch (err: any) {
       setMessage(err.response?.data?.error || "Failed to join team");
     }

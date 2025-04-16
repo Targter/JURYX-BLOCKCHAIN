@@ -87,10 +87,12 @@ export async function POST(request: NextRequest) {
 
       // Link code to this user
       if (role === "PANELIST") {
-        await prisma.panelistCode.update({
+        const ab = await prisma.panelistCode.update({
           where: { eventId },
           data: { userId: user.id },
         });
+        console.log("loginAb:",ab)
+        
       } else if (role === "USER") {
         await prisma.participantCode.update({
           where: { eventId },
