@@ -57,7 +57,7 @@ export async function GET(request: Request) {
 }
 
 // If you need to handle other methods, add them as named exports
-export async function POST(request: Request) {
+export async function POST() {
   return NextResponse.json(
     { error: "Method not allowed" },
     { status: 405 }

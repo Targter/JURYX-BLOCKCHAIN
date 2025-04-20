@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ team });
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Failed to create team" }, { status: 500 });
   }
