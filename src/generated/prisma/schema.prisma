@@ -1,14 +1,14 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Currently Event have a only one panelist 
 
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -21,12 +21,156 @@ enum Role {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  role     Role
-  isPublic Boolean? @default(false)
-  project  Bytes?
-  // createdAt DateTime @default(now())
-  // updatedAt DateTime @updatedAt
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  password   String
+  role       Role
+  isPublic   Boolean @default(false)
+  storageUrl String?
+
+  // Organizer of events
+  organizedEvents Event[] @relation("UserOrganizedEvents")
+
+  // Participant team
+  team   Team?   @relation("TeamParticipants", fields: [teamId], references: [id])
+  teamId String?
+
+  // Panelist scores
+  scores          Score[]          @relation("UserPanelistScores")
+  PanelistCode    PanelistCode?
+  ParticipantCode ParticipantCode?
 }
+
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  organizer   User @relation("UserOrganizedEvents", fields: [organizerId], references: [id])
+  organizerId Int
+
+  rounds          Round[]
+  teams           Team[]
+  panelistCode    PanelistCode?
+  participantCode ParticipantCode?
+}
+
+model Round {
+  id      String @id @default(cuid())
+  name    String
+  order   Int
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  scores Score[]
+}
+
+model Team {
+  id      String @id @default(cuid())
+  name    String
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  participants User[]  @relation("TeamParticipants")
+  scores       Score[]
+}
+
+model Score {
+  id      String  @id @default(cuid())
+  marks   Int
+  remarks String?
+
+  round   Round  @relation(fields: [roundId], references: [id])
+  roundId String
+
+  panelist   User @relation("UserPanelistScores", fields: [panelistId], references: [id])
+  panelistId Int
+
+  team   Team   @relation(fields: [teamId], references: [id])
+  teamId String
+}
+
+model PanelistCode {
+  id      String @id @default(cuid())
+  code    String @unique
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @unique
+  user    User?  @relation(fields: [userId], references: [id])
+  userId  Int?   @unique
+}
+
+model ParticipantCode {
+  id      String @id @default(cuid())
+  code    String @unique
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @unique
+  user    User?  @relation(fields: [userId], references: [id])
+  userId  Int?   @unique
+}
+
+// // 
+// my require answer panelistCode have multiple panelist and participant 
+// model Event {
+//   id              String          @id @default(cuid())
+//   name            String
+//   description     String?
+//   createdAt       DateTime        @default(now())
+
+//   organizer       User            @relation("UserOrganizedEvents", fields: [organizerId], references: [id])
+//   organizerId     Int
+
+//   rounds          Round[]
+//   teams           Team[]
+
+//   // Only one active code per event (panelist & participant)
+//   panelistCode    PanelistCode?   @relation("EventPanelistCode", fields: [panelistCodeId], references: [id])
+//   panelistCodeId  String?         @unique
+//   participantCode ParticipantCode? @relation("EventParticipantCode", fields: [participantCodeId], references: [id])
+//   participantCodeId String?        @unique
+// }
+
+// model PanelistCode {
+//   id      String @id @default(cuid())
+//   code    String @unique
+//   event   Event  @relation("EventPanelistCode", fields: [eventId], references: [id])
+//   eventId String
+//   users   User[] @relation("UserPanelistCodes") // Allow multiple users to have the same panelistCode
+// }
+
+// model ParticipantCode {
+//   id      String @id @default(cuid())
+//   code    String @unique
+//   event   Event  @relation("EventParticipantCode", fields: [eventId], references: [id])
+//   eventId String
+//   users   User[] @relation("UserParticipantCodes") // Allow multiple users to have the same participantCode
+// }
+
+// model User {
+//   id         Int     @id @default(autoincrement())
+//   email      String  @unique
+//   password   String
+//   role       Role
+//   isPublic   Boolean @default(false)
+//   storageUrl String?
+
+//   // Organizer of events
+//   organizedEvents Event[] @relation("UserOrganizedEvents")
+
+//   // Participant team
+//   team   Team?   @relation("TeamParticipants", fields: [teamId], references: [id])
+//   teamId String?
+
+//   // Panelist scores
+//   scores          Score[]          @relation("UserPanelistScores")
+//   panelistCodes   PanelistCode[]   @relation("UserPanelistCodes")
+//   participantCodes ParticipantCode[] @relation("UserParticipantCodes")
+// }
+
+// enum Role {
+//   ORGANIZER
+//   USER
+//   PANELIST
+// }
+
+// // 
