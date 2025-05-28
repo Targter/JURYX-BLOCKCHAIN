@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { unzipFromUrl } from '@/libs/unzip-utils'
-import { WebContainer } from '@webcontainer/api'
+import { WebContainer ,FileSystemTree} from '@webcontainer/api'
 import { useParams } from 'next/navigation'
 import { useUserDetails } from '@/hooks/useStore'
 
@@ -109,7 +109,7 @@ export default function PanelistDashboard() {
     return root.children;
   };
   useEffect(() => {
-    console.log("this calling......")
+    console.log("Panelist Details calling......")
     async function fetchUsers() {
       const { data } = await axios.post('/api/panelist',{eventId});
       setTeams(data.teams);
@@ -131,16 +131,16 @@ export default function PanelistDashboard() {
     setServerUrl(null);
 
     try {
-      const files:any = await unzipFromUrl(zipUrl);
+      const files = await unzipFromUrl(zipUrl);
       const tree = buildFileTree(files);
-      console.log('File tree:', tree);
+      console.log('File tree Data:', tree);
 
       // 3. Create WebContainer filesystem (without root)
-      const fileSystem: Record<string, any> = {};
+      const fileSystem: FileSystemTree  = {};
       
       for (const [filePath, content] of Object.entries(files)) {
         const pathParts = filePath.split('/');
-        let currentLevel = fileSystem;
+        let currentLevel: Record<string, any> = fileSystem;
 
         // Skip the root directory level
         const startIndex = pathParts.length > 1 ? 1 : 0;
@@ -151,7 +151,7 @@ export default function PanelistDashboard() {
           if (!currentLevel[part]) {
             currentLevel[part] = { directory: {} };
           }
-          currentLevel = currentLevel[part].directory;
+          currentLevel = currentLevel[part].directory!;
         }
 
         // Add file to final directory
@@ -164,7 +164,7 @@ export default function PanelistDashboard() {
 
       const webContainer = await WebContainer.boot();
       setWebContainerInstance(webContainer);
-      console.log(fileSystem)
+      console.log("panelistFileSystem:",fileSystem)
       await webContainer.mount(fileSystem);
       console.log("Mounted project to WebContainer");
 
