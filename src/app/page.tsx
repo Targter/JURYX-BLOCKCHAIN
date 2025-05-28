@@ -394,7 +394,7 @@ const HomePage: React.FC = () => {
         <motion.button
           whileHover={{ scale: 1.1, boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.2)' }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => router.push('/login')}
+          onClick={() => router.push('/event')}
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full transition duration-300 shadow-lg"
         >
           Get Started

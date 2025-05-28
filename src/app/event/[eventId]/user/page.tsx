@@ -32,8 +32,8 @@ export default function UserEventDashboard() {
             setUserTeam(res.data.team); // Set user team details if they exist
             // router.push(`/event/${eventId}/user/upload`); // Redirect to uploads if the user has a team
           }
-        } catch (err: any) {
-          console.error("Error fetching user team", err);
+        } catch (error) {
+          console.error("Error fetching user team", error);
         }
       }
     };
@@ -54,8 +54,9 @@ export default function UserEventDashboard() {
       setMessage(`Team created: ${res.data.team.name}`);
       // redirect to dashboard or team detail
       router.push(`./user/upload`);
-    } catch (err: any) {
-      setMessage(err.response?.data?.error || "Failed to create team");
+    } catch (error) {
+      console.error(error)
+      setMessage( "Failed to create team");
     }
   };
 
@@ -72,8 +73,9 @@ export default function UserEventDashboard() {
       console.log("resJoinTeam:",res.data)
       setMessage("Successfully joined the team!");
       router.push(`./user/upload`);
-    } catch (err: any) {
-      setMessage(err.response?.data?.error || "Failed to join team");
+    } catch (error) {
+      console.error(error)
+      setMessage( 'Failed to join team');
     }
   };
 
