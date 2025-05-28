@@ -201,22 +201,22 @@ export default function PanelistDashboard() {
 
   // 
 
-  const [teamScores, setTeamScores] = useState<Record<string, { score: number; remarks: string }>>({});
+  // const [teamScores, setTeamScores] = useState<Record<string, { score: number; remarks: string }>>({});
 
 // Update state on score or remarks change
-const handleScoreChange = (e: React.ChangeEvent<HTMLInputElement>, teamId: string) => {
-  setTeamScores(prevState => ({
-    ...prevState,
-    [teamId]: { ...prevState[teamId], score: Number(e.target.value) }
-  }));
-};
+// const handleScoreChange = (e: React.ChangeEvent<HTMLInputElement>, teamId: string) => {
+//   // setTeamScores(prevState => ({
+//   //   ...prevState,
+//   //   [teamId]: { ...prevState[teamId], score: Number(e.target.value) }
+//   // }));
+// };
 
-const handleRemarksChange = (e: React.ChangeEvent<HTMLTextAreaElement>, teamId: string) => {
-  setTeamScores(prevState => ({
-    ...prevState,
-    [teamId]: { ...prevState[teamId], remarks: e.target.value }
-  }));
-};
+// const handleRemarksChange = (e: React.ChangeEvent<HTMLTextAreaElement>, teamId: string) => {
+//   // setTeamScores(prevState => ({
+//   //   ...prevState,
+//   //   [teamId]: { ...prevState[teamId], remarks: e.target.value }
+//   // }));
+// };
 
 const handleScoreSubmission = async (teamId: string, marks: number, remarks: string) => {
   if (!selectedRoundId) {
