@@ -266,6 +266,13 @@ export async function POST(request: NextRequest) {
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 
       });
+      // eventId:
+        cookieStore.set('event_id', eventId, { 
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 
+      });
       console.log("userEmail:",user.email)
       cookieStore.set('user_email', user.email, { 
         httpOnly: true, 

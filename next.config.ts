@@ -1,29 +1,29 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   // Enabling headers globally
-//   async headers() {
-//     return [
-//       {
-//         source: "/(.*)", // Apply to all routes and static files
-//         headers: [
-//           {
-//             key: "Cross-Origin-Embedder-Policy",
-//             value: "require-corp",
-//           },
-//           {
-//             key: "Cross-Origin-Opener-Policy",
-//             value: "same-origin",
-//           },
+// // /** @type {import('next').NextConfig} */
+// // const nextConfig = {
+// //   // Enabling headers globally
+// //   async headers() {
+// //     return [
+// //       {
+// //         source: "/(.*)", // Apply to all routes and static files
+// //         headers: [
+// //           {
+// //             key: "Cross-Origin-Embedder-Policy",
+// //             value: "require-corp",
+// //           },
+// //           {
+// //             key: "Cross-Origin-Opener-Policy",
+// //             value: "same-origin",
+// //           },
        
-//         ],
-//       },
-//     ];
-//   },
-//   // Optional: Use standalone for better server deployment
-//   output: "standalone",
-// };
+// //         ],
+// //       },
+// //     ];
+// //   },
+// //   // Optional: Use standalone for better server deployment
+// //   output: "standalone",
+// // };
 
-// export default nextConfig;
+// // export default nextConfig;
 
 // /** @type {import('next').NextConfig} */
 // const nextConfig = {
@@ -79,31 +79,39 @@
 
 // export default nextConfig;
 
-import type { NextConfig } from "next";
+// import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-   async headers() {
-    return [
-      {
-        source: "/(.*)", // Apply to all routes and static files
-        headers: [
-          {
-            key: "Cross-Origin-Embedder-Policy",
-            value: "require-corp",
-          },
-          {
-            key: "Cross-Origin-Opener-Policy",
-            value: "same-origin",
-          },
+// const nextConfig: NextConfig = {
+//   /* config options here */
+//    async headers() {
+//     return [
+//       {
+//         source: "/(.*)", // Apply to all routes and static files
+//         headers: [
+//           {
+//             key: "Cross-Origin-Embedder-Policy",
+//             value: "require-corp",
+//           },
+//           {
+//             key: "Cross-Origin-Opener-Policy",
+//             value: "same-origin",
+//           },
        
-        ],
-      },
-    ];
-  },
-  // Optional: Use standalone for better server deployment
-  output: "standalone",
-};
+//         ],
+//       },
+//     ];
+//   },
+//   // Optional: Use standalone for better server deployment
+//   output: "standalone",
+// };
 
+
+// export default nextConfig;
+
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  
+};
 
 export default nextConfig;

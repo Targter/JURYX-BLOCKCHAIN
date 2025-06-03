@@ -27,7 +27,7 @@ interface OtherLoginPayload {
 type LoginPayload = OrganizerLoginPayload | OtherLoginPayload;
 const Login: React.FC = () => {
   const router = useRouter();
-  const { setUser } = useUserDetails();
+  // const { setUser } = useUserDetails();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -60,14 +60,14 @@ const Login: React.FC = () => {
       const response = await axios.post("/api/login", payload);
       const user = response.data.user;
 
-      setUser({
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        eventId: eventId || '',
-        isPublic: user.isPublic,
-      });
-      console.log("response.data", response.data);
+      // setUser({
+      //   id: user.id,
+      //   email: user.email,
+      //   role: user.role,
+      //   eventId: eventId || '',
+      //   isPublic: user.isPublic,
+      // });
+      // console.log("response.data", response.data);
       router.push(response.data.route);
       console.log('end');
     } catch (error) {

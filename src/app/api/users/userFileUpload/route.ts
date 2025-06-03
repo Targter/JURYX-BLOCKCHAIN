@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       Body: buffer,
       ContentType: file.type,
     //   ACL: 'public-read', 
-    }));
+    }));  
     const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
     // 4. Update DB

@@ -110,6 +110,7 @@ const UserUpload = () => {
     const formData = new FormData();
     formData.append('project', zipBlob, 'project.zip');
     formData.append("userId", String(user?.email));
+    console.log("user.email:",user)
       // const formData = new FormData();
 //     formData.append('project', zipBlob, 'project.zip');
 //     formData.append("userId",String(user?.email))
@@ -119,6 +120,7 @@ const UserUpload = () => {
 //     // console.log(fileArray.map(f => f.webkitRelativePath))
 //   //  temp disable
 //   // *****************************************************
+console.log("formData:",formData)
     const response  = await axios.post("/api/users/userFileUpload", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
