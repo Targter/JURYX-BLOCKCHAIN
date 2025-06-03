@@ -3,12 +3,18 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useUserDetails } from '@/hooks/useStore'
+
+interface Event {
+  id: string;
+  name: string;
+  organizerId: string;
+}
 export default function OrganizerPage() {
   const [eventName, setEventName] = useState('')
   const [roundName, setRoundName] = useState('')
   const [selectedEvent, setSelectedEvent] = useState('')
-  const [events, setEvents] = useState<any[]>([])
-  const [getEvents, setgetEvents] = useState<any[]>([])
+  const [events, setEvents] = useState<Event[]>([])
+  const [getEvents, setgetEvents] = useState<Event[]>([])
   const {user} = useUserDetails(); 
   // panelist and the user code to login 
   const [codeData, setCodeData] = useState<{ panelistCode: string; participantCode: string } | null>(null)
