@@ -565,6 +565,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
 import { Loader2Icon, ChevronRight, ChevronDown, FileText } from "lucide-react";
+import Lookup from '@/component/Lookup'
 
 // Types remain the same as before
 type UserProject = {
@@ -628,7 +629,7 @@ export default function PanelistDashboard() {
   });
   const [error, setError] = useState<string | null>(null);
   const [selectedRoundId, setSelectedRoundId] = useState<string | null>(null);
-  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>({});
+  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>(Lookup.DEFAULT_FILE);
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [rounds, setRounds] = useState<Round[]>([]);
   const [currentPreview, setCurrentPreview] = useState<{ 
@@ -665,11 +666,12 @@ export default function PanelistDashboard() {
         const initialExpandedState = data.teams.reduce((acc: Record<string, boolean>, team: Team) => {
           acc[team.id] = false;
           return acc;
-        }, {});
+        }, {} as Record<string, boolean> // Explicit type assertion
+);
         setExpandedTeams(initialExpandedState);
       } catch (err) {
         setError('Failed to load teams');
-        console.error(err);
+        console.error(err); 
       } finally {
         setLoading(prev => ({ ...prev, teams: false }));
       }
@@ -723,12 +725,12 @@ export default function PanelistDashboard() {
   const previewProject = async (zipUrl: string, name: string, type: 'team' | 'participant') => {
     setLoading(prev => ({ ...prev, preview: true }));
     setError(null);
-    setSandpackFiles({});
+    setSandpackFiles({} as SandpackFiles);
     setCurrentPreview({ name, type, timestamp: Date.now() });
 
     try {
       const files = await unzipFromUrl(zipUrl);
-      const filesObj: SandpackFiles = {};
+      const filesObj: SandpackFiles = {} as SandpackFiles;
 
       // Process each file in the zip
       for (const [filePath, content] of Object.entries(files)) {

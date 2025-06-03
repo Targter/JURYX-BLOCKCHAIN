@@ -183,7 +183,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "F:\\GitHub\\WEB-APP-2\\app\\src\\generated\\prisma",
+      "value": "F:\\IMP-PROJECT\\HACKATHON-BLOCKCHAIN\\app\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -197,11 +197,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "F:\\GitHub\\WEB-APP-2\\app\\prisma\\schema.prisma",
+    "sourceFilePath": "F:\\IMP-PROJECT\\HACKATHON-BLOCKCHAIN\\app\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
+    "rootEnvPath": "../../../.env",
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -211,11 +211,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://neondb_owner:npg_vGJ8BSjsdcF6@ep-mute-sea-a4xh10sf-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
+        "value": null
       }
     }
   },
