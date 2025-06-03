@@ -1,180 +1,244 @@
-'use client';
-import React, { JSX, useEffect, useState } from 'react';
-import { useUploadStore, useUserDetails, useWebStore } from '@/hooks/useStore';
-import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-// import { useWeb } from '@/app/useWebContainer';
-type FileNode = {
-  type: 'file';
-  name: string;
-  file: File;
-};
+"use client";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import {
+  SandpackProvider,
+  SandpackLayout,
+  SandpackFileExplorer,
+  SandpackCodeEditor,
+  SandpackPreview,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+import { useUploadStore } from "@/hooks/useStore";
+import { Loader2Icon } from "lucide-react";
+import { Resizable } from "react-resizable";
+import "react-resizable/css/styles.css";
 
-type FolderNode = {
-  type: 'folder';
-  name: string;
-  children: TreeNode[];
-};
+type SandpackFiles = Record<string, { code: string; hidden?: boolean }>;
 
-type TreeNode = FileNode | FolderNode;
-type WebContainerFS = {
-    [key: string]: 
-      | { directory: WebContainerFS }
-      | { file: { contents: string } }
-  };
+// List of files/directories to exclude
+const EXCLUDED_PATHS = [
+  "node_modules",
+  ".git",
+  ".gitignore",
+  ".DS_Store",
+  "package-lock.json",
+  "yarn.lock",
+  "dist",
+  "build",
+  ".next",
+  ".vscode",
+  "Thumbs.db",
+  ".env",
+  ".env.local",
+  ".idea",
+];
+
 const Page = () => {
-    const router = useRouter();
+  const router = useRouter();
   const { files } = useUploadStore();
-  const {eventId} = useParams(); 
-  const {setWebContainerData} = useWebStore();
-  const [tree, setTree] = useState<FolderNode | null>(null);
-  const [openedFile, setOpenedFile] = useState<FileNode | null>(null);
-  const [fileContent, setFileContent] = useState<string>('');
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const { eventId } = useParams<{ eventId: string }>();
+  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>({});
+  const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
+  const [isLoading, setIsLoading] = useState(false);
+  const [explorerWidth, setExplorerWidth] = useState(300); // Initial width for file explorer
 
-  useEffect(() => {
-
-    const ab = async ()=>{
-
-        if (!files || files.length === 0) {
-            router.push(`/event/${eventId}/user/upload`);
-          }
-        if (files && files.length > 0) {
-          const root: FolderNode = { type: 'folder', name: 'root', children: [] };
-    
-          files.forEach((file) => {
-            const typedFile = file as File & { webkitRelativePath?: string };
-            const relPath = typedFile.webkitRelativePath;
-
-            if (!relPath) return;
-            const pathParts = typedFile.webkitRelativePath?.split('/') || [];
-            const innerPathParts = pathParts.slice(1); // skip top-level folder
-            if (innerPathParts.length > 0) {
-              insertIntoTree(root, innerPathParts, file);
-            }
-          });
-          setTree(root); // ✅ fix was needed here
-          const pf =await convertTreeToWebContainerFS(root.children)
-          console.log("pf:",pf)
-          setWebContainerData(pf)
-        }
-
-    }
-    ab();
-  }, [files]);
-
-
-  const convertTreeToWebContainerFS = async (
-    nodes: TreeNode[]
-  ): Promise<WebContainerFS> => {
-    const fs: WebContainerFS = {};
-    for (const node of nodes) {
-      if (node.type === "folder") {
-        fs[node.name] = {
-          directory: await convertTreeToWebContainerFS(node.children),
-        };
-      } else if (node.type === "file") {
-        const content = await node.file.text();
-        fs[node.name] = {
-          file: { contents: content },
-        };
-      }
-    }
-    return fs;
+  const handleTabChange = (tab: "code" | "preview") => {
+    setActiveTab(tab);
   };
 
-//   
-  const insertIntoTree = (node: FolderNode, pathParts: string[], file: File) => {
-    if (pathParts.length === 1) {
-      node.children.push({ type: 'file', name: pathParts[0], file });
-      return;
-    }
-
-    const [folderName, ...rest] = pathParts;
-    let child = node.children.find(
-      (c) => c.type === 'folder' && c.name === folderName
-    ) as FolderNode;
-
-    if (!child) {
-      child = { type: 'folder', name: folderName, children: [] };
-      node.children.push(child);
-    }
-
-    insertIntoTree(child, rest, file);
-  };
-
-  const handleFileClick = async (node: FileNode) => {
-    setOpenedFile(node);
-    console.log("node:",node)
-    const content = await node.file.text();
-    setFileContent(content);
-  };
-
-  const toggleExpand = (path: string) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [path]: !prev[path],
-    }));
-  };
-
-  const renderTree = (node: TreeNode, path = ''): JSX.Element => {
-    const currentPath = `${path}/${node.name}`;
-
-    if (node.type === 'file') {
-      return (
-        <div
-          className="pl-6 cursor-pointer hover:text-blue-800 text-lg truncate"
-          onClick={() => handleFileClick(node)}
-        >
-          📄 {node.name}
-        </div>
-      );
-    }
-
-    const isOpen = expanded[currentPath] ?? true;
-
-    return (
-      <div className="pl-4 text-black">
-        <div
-          className="cursor-pointer font-medium"
-          onClick={() => toggleExpand(currentPath)}
-        >
-          {isOpen ? '📂' : '📁'} {node.name}
-        </div>
-        {isOpen &&
-          node.children.map((child, idx) => (
-            <div key={idx}>{renderTree(child, currentPath)}</div>
-          ))}
-      </div>
+  const shouldExcludeFile = (filePath: string): boolean => {
+    const lowerCasePath = filePath.toLowerCase();
+    return EXCLUDED_PATHS.some(
+      (excludedPath) =>
+        lowerCasePath.includes(excludedPath.toLowerCase()) ||
+        lowerCasePath.startsWith(`/${excludedPath.toLowerCase()}`)
     );
   };
 
+  useEffect(() => {
+    const processFiles = async () => {
+      console.log("!files")
+      if (!files || files.length === 0) {
+            router.push(`/event/${eventId}/user/upload`);
+          }
+
+      setIsLoading(true);
+      const filesObj: SandpackFiles = {};
+
+      await Promise.all(
+        Array.from(files).map(async (file) => {
+          const fullPath = file.webkitRelativePath || file.name;
+          const cleanPath = "/" + fullPath.split("/").slice(1).join("/");
+
+          if (shouldExcludeFile(cleanPath)) return;
+
+          if (
+            file.type &&
+            !file.type.startsWith("text/") &&
+            !file.name.match(/\.(js|jsx|ts|tsx|css|scss|html|json|md|txt)$/i)
+          ) {
+            return;
+          }
+
+          try {
+            filesObj[cleanPath] = {
+              code: await file.text(),
+              hidden: false,
+            };
+          } catch (error) {
+            console.warn(`Could not read file ${cleanPath}:`, error);
+          }
+        })
+      );
+
+      setSandpackFiles(filesObj);
+      setIsLoading(false);
+    };
+
+    processFiles();
+  }, [files]);
+
+  const getEntryFile = (): string => {
+    if (Object.keys(sandpackFiles).length === 0) return "/App.js";
+
+    const possibleEntryPoints = [
+      "/src/main.jsx",
+      "/src/main.tsx",
+      "/src/App.jsx",
+      "/src/App.tsx",
+      "/App.jsx",
+      "/App.tsx",
+      "/index.js",
+      "/index.tsx",
+    ];
+
+    const foundEntry = possibleEntryPoints.find((path) => sandpackFiles[path]);
+    return foundEntry || Object.keys(sandpackFiles)[0];
+  };
+
+  const handleResize = (
+    event: React.SyntheticEvent,
+    { size }: { size: { width: number; height: number } }
+  ) => {
+    setExplorerWidth(size.width);
+  };
+
   return (
-    <div className="flex w-full h-screen overflow-hidden text-black">
-      {/* Sidebar Tree */}
-      <div className="w-1/3 bg-gray-100 p-4 overflow-y-auto border-r">
-        <h2 className="text-lg font-semibold mb-2">📁 Project Files</h2>
-        {tree ? renderTree(tree) : <p className="text-gray-500">No files uploaded</p>}
+    <div className="relative w-full h-[calc(100vh-4rem)] overflow-hidden bg-gray-900 font-sans">
+      {/* Sticky Tab Navigation */}
+      <div className="sticky top-0 z-10 bg-gray-800 p-3 shadow-md">
+        <div className="flex items-center gap-2 bg-gray-900 p-2 rounded-lg w-fit">
+          {(["code", "preview"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => handleTabChange(tab)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ease-in-out ${
+                activeTab === tab
+                  ? "bg-blue-600 text-white shadow-sm"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+              }`}
+              aria-label={`Switch to ${tab} view`}
+              aria-selected={activeTab === tab}
+              role="tab"
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Code Viewer */}
-      <div className="w-2/3 p-4 overflow-y-auto bg-white">
-      <Link href={`/event/${eventId}/user/preview`}>
-  <button className="bg-red-600 p-2 rounded-2xl hover:bg-red-900 float-right">
-    Preview
-  </button>
-</Link>
-        {openedFile ? (
-          <>
-            <h2 className="text-md font-bold mb-2">{openedFile.name}</h2>
-            <pre className="bg-gray-900 text-green-300 p-4 rounded-lg text-sm whitespace-pre-wrap max-h-[90vh] overflow-auto">
-              {fileContent}
-            </pre>
-          </>
-        ) : (
-          <p className="text-gray-500">Click a file to view its content</p>
-        )}
-      </div>
+      {/* Main Content */}
+      {Object.keys(sandpackFiles).length > 0 ? (
+        <SandpackProvider
+          files={sandpackFiles}
+          template="react-ts"
+          theme={nightOwl}
+          customSetup={{
+            entry: getEntryFile(),
+          }}
+          options={{
+            externalResources: ["https://cdn.tailwindcss.com"],
+            classes: {
+              "sp-layout": "h-[calc(100vh-4rem)]",
+            },
+            activeFile: Object.keys(sandpackFiles)[0],
+          }}
+        >
+          <SandpackLayout>
+            {activeTab === "code" ? (
+              <div className="flex h-full">
+                <Resizable
+                  width={explorerWidth}
+                  height={Infinity}
+                  onResize={handleResize}
+                  minConstraints={[200, Infinity]}
+                  maxConstraints={[500, Infinity]}
+                  className="border-r border-gray-700"
+                  handle={<div className="w-1 bg-gray-600 hover:bg-blue-500 cursor-col-resize" />}
+                >
+                  <div
+                    className="p-2 bg-gray-800"
+                    style={{ width: explorerWidth, height: "100%" }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Search files..."
+                      className="w-full mb-2 p-2 text-sm bg-gray-900 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <SandpackFileExplorer autoHiddenFiles={false} style={{ height: "calc(100% - 40px)" }} />
+                  </div>
+                </Resizable>
+                <div className="flex-1">
+                  <SandpackCodeEditor
+                    showLineNumbers
+                    showTabs
+                    closableTabs
+                    style={{ height: "100%" }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="w-full h-full bg-gray-800">
+                <div className="flex items-center p-2 bg-gray-900 border-b border-gray-700">
+                  <button
+                    className="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                    onClick={() => window.location.reload()}
+                    aria-label="Refresh preview"
+                  >
+                    Refresh
+                  </button>
+                </div>
+                <SandpackPreview
+                  showNavigator
+                  style={{ height: "calc(100% - 44px)", width: "100%" }}
+                />
+              </div>
+            )}
+          </SandpackLayout>
+        </SandpackProvider>
+      ) : (
+        <div className="flex items-center justify-center h-full bg-gray-900">
+          {isLoading ? (
+            <div className="flex flex-col items-center gap-4">
+              <Loader2Icon className="animate-spin w-12 h-12 text-blue-500" />
+              <p className="text-white text-lg">Processing your files...</p>
+            </div>
+          ) : (
+            <div className="text-center">
+              <p className="text-gray-300 text-lg mb-4">No files uploaded yet</p>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                onClick={() => router.push("/upload")} // Adjust route as needed
+                aria-label="Upload files"
+              >
+                Upload Files
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
