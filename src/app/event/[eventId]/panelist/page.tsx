@@ -929,7 +929,7 @@ export default function PanelistDashboard() {
                                   <div>
                                     <p className="font-medium">{member.email}</p>
                                     <p className="text-xs text-gray-400">
-                                      {member.storageUrl ? "Project uploaded" : "No project uploaded"}
+                                     {member.storageUrl ? 'Project uploaded' : 'No project uploaded'}
                                     </p>
                                   </div>
                                   {member.storageUrl && (
