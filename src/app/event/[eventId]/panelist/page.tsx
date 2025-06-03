@@ -564,7 +564,7 @@ import {
   SandpackPreview,
 } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
-import { Loader2Icon, ChevronRight, ChevronDown, FileText, Folder, FolderOpen } from "lucide-react";
+import { Loader2Icon, ChevronRight, ChevronDown, FileText } from "lucide-react";
 
 // Types remain the same as before
 type UserProject = {
