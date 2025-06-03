@@ -39,7 +39,7 @@ const Page = () => {
   const router = useRouter();
   const { files } = useUploadStore();
   const { eventId } = useParams<{ eventId: string }>();
-  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>({});
+  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>({} as SandpackFiles);
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [isLoading, setIsLoading] = useState(false);
   const [explorerWidth, setExplorerWidth] = useState(300); // Initial width for file explorer
@@ -65,7 +65,7 @@ const Page = () => {
           }
 
       setIsLoading(true);
-      const filesObj: SandpackFiles = {};
+      const filesObj: SandpackFiles = {} as SandpackFiles;
 
       await Promise.all(
         Array.from(files).map(async (file) => {
