@@ -184,7 +184,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "F:\\IMP-PROJECT\\HACKATHON-BLOCKCHAIN\\app\\src\\generated\\prisma",
+      "value": "F:\\IMP-PROJECT\\HACKATHON-BLOCKCHAIN\\JURYX\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -198,11 +198,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "F:\\IMP-PROJECT\\HACKATHON-BLOCKCHAIN\\app\\prisma\\schema.prisma",
+    "sourceFilePath": "F:\\IMP-PROJECT\\HACKATHON-BLOCKCHAIN\\JURYX\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
