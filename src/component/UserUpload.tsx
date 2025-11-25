@@ -332,7 +332,7 @@ const UserUpload = () => {
               Upload Project Source
             </h2>
             <p className="text-zinc-400 text-sm max-w-xs mx-auto">
-              Select the root folder of your project. We'll handle the
+              Select the root folder of your project. We&apos;ll handle the
               compression and submission.
             </p>
           </div>
