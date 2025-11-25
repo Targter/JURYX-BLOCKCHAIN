@@ -153,7 +153,6 @@ import {
   Plus,
   ArrowRight,
   Hash,
-  Shield,
   Loader2,
   Sparkles,
   Trophy,
