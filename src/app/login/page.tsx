@@ -58,13 +58,10 @@ export default function Login() {
 
   // --- Effect: Auto-fill Event ID ---
   useEffect(() => {
-    const queryEventId = searchParams.get("eventId");
+    // const queryEventId = searchParams.get("eventId");
     const localEventId = localStorage.getItem("selectedEventId");
 
-    if (queryEventId) {
-      setEventId(queryEventId);
-      if (role === "ORGANIZER") setRole("USER");
-    } else if (localEventId) {
+    if (localEventId) {
       setEventId(localEventId);
     }
   }, [searchParams, role]);
