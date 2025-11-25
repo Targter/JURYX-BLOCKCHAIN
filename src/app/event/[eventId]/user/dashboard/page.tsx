@@ -39,7 +39,9 @@ const Page = () => {
   const router = useRouter();
   const { files } = useUploadStore();
   const { eventId } = useParams<{ eventId: string }>();
-  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>({} as SandpackFiles);
+  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>(
+    {} as SandpackFiles
+  );
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [isLoading, setIsLoading] = useState(false);
   const [explorerWidth, setExplorerWidth] = useState(300); // Initial width for file explorer
@@ -59,10 +61,11 @@ const Page = () => {
 
   useEffect(() => {
     const processFiles = async () => {
-      console.log("!files")
+      console.log("!files");
       if (!files || files.length === 0) {
-            router.push(`/event/${eventId}/user/upload`);
-          }
+        // router.push(`/event/${eventId}/user/upload`);
+        return;
+      }
 
       setIsLoading(true);
       const filesObj: SandpackFiles = {} as SandpackFiles;
@@ -176,7 +179,9 @@ const Page = () => {
                   minConstraints={[200, Infinity]}
                   maxConstraints={[500, Infinity]}
                   className="border-r border-gray-700"
-                  handle={<div className="w-1 bg-gray-600 hover:bg-blue-500 cursor-col-resize" />}
+                  handle={
+                    <div className="w-1 bg-gray-600 hover:bg-blue-500 cursor-col-resize" />
+                  }
                 >
                   <div
                     className="p-2 bg-gray-800"
@@ -187,7 +192,10 @@ const Page = () => {
                       placeholder="Search files..."
                       className="w-full mb-2 p-2 text-sm bg-gray-900 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <SandpackFileExplorer autoHiddenFiles={false} style={{ height: "calc(100% - 40px)" }} />
+                    <SandpackFileExplorer
+                      autoHiddenFiles={false}
+                      style={{ height: "calc(100% - 40px)" }}
+                    />
                   </div>
                 </Resizable>
                 <div className="flex-1">
@@ -227,11 +235,13 @@ const Page = () => {
             </div>
           ) : (
             <div className="text-center">
-              <p className="text-gray-300 text-lg mb-4">No files uploaded yet</p>
+              <p className="text-gray-300 text-lg mb-4">
+                No files uploaded yet
+              </p>
               <button
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                onClick={() => router.push("/upload")} // Adjust route as needed
-                aria-label="Upload files"
+                onClick={() => router.back()} // Adjust route as needed
+                aria-label="Go Back to Upload Files Page"
               >
                 Upload Files
               </button>

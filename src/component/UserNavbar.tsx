@@ -16,9 +16,9 @@ export default function Navbar() {
   }, []);
 
   // --- Configuration ---
+  console.log("normalizedRole:", user);
   const getRoleConfig = (role: string) => {
     const normalizedRole = role.toUpperCase();
-
     switch (normalizedRole) {
       case "ORGANIZER":
         return {
@@ -62,7 +62,7 @@ export default function Navbar() {
         };
       default: // PARTICIPANT
         return {
-          path: "/participant/home",
+          path: `/event/${user?.eventId}/user/`,
           label: "PARTICIPANTS",
           icon: (
             <svg
