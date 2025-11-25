@@ -63,8 +63,8 @@ const Page = () => {
     const processFiles = async () => {
       console.log("!files");
       if (!files || files.length === 0) {
-        // router.push(`/event/${eventId}/user/upload`);
-        return;
+        router.push(`/event/${eventId}/user/upload`);
+        // return;
       }
 
       setIsLoading(true);
