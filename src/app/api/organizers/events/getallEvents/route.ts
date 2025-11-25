@@ -25,3 +25,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: 'Error fetching events' }, { status: 500 })
   }
 }
+
+export async function GET(){
+  const events = await prisma.event.findMany();
+  return NextResponse.json(events);
+}

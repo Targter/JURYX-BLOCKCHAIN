@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cookies } from "next/headers";
 import { AuthProvider } from "@/component/auth/AuthProvider";
+import Navbar from "@/component/UserNavbar";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -33,7 +34,10 @@ export default async function RootLayout({
     <html lang="en">
       {/* ${geistSans.variable} ${geistMono.variable} */}
       <body className={` antialiased`}>
-        <AuthProvider> {children} </AuthProvider>
+        <AuthProvider>
+          <Navbar />
+          {children}{" "}
+        </AuthProvider>
       </body>
     </html>
   );

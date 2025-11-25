@@ -20,6 +20,8 @@ export default function UserEventDashboard() {
   const [joinCode, setJoinCode] = useState("");
   const [message, setMessage] = useState("");
   const [userTeam, setUserTeam] = useState<Team | null>(null); 
+
+  
   useEffect(() => {
     // Fetch the user's team details when the component mounts
     const fetchUserTeam = async () => {
@@ -40,6 +42,7 @@ export default function UserEventDashboard() {
 
     fetchUserTeam();
   }, [user, eventId, router]);
+
   const handleCreateTeam = async () => {
     try {
         if(!user){

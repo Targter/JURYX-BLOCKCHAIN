@@ -12,6 +12,7 @@ import {
   Sparkles,
   ArrowRight,
   Check,
+  Terminal,
 } from "lucide-react";
 
 const HomePage: React.FC = () => {
@@ -21,9 +22,10 @@ const HomePage: React.FC = () => {
     {
       title: "Immutable Judging & Voting",
       description:
-        "Tamper-proof scoring and results secured by smart contracts on Ethereum/Solana blockchain.",
+        "Tamper-proof scoring results secured by smart contracts on Ethereum & Solana.",
       icon: Shield,
-      gradient: "from-blue-600 to-blue-400",
+      accent: "text-blue-400",
+      bgAccent: "bg-blue-500/10",
       benefits: [
         "Transparent Results",
         "Zero Manipulation",
@@ -35,15 +37,17 @@ const HomePage: React.FC = () => {
       description:
         "Instant cryptocurrency or NFT payouts to winners with zero intermediaries.",
       icon: Zap,
-      gradient: "from-purple-600 to-purple-400",
+      accent: "text-purple-400",
+      bgAccent: "bg-purple-500/10",
       benefits: ["Instant Payouts", "No Middlemen", "Multi-Token Support"],
     },
     {
-      title: "Decentralized Team Formation",
+      title: "Decentralized Teams",
       description:
         "Trustless collaboration with on-chain reputation systems for seamless teamwork.",
       icon: Users,
-      gradient: "from-emerald-600 to-emerald-400",
+      accent: "text-emerald-400",
+      bgAccent: "bg-emerald-500/10",
       benefits: ["On-Chain Reputation", "Smart Matching", "Team Analytics"],
     },
     {
@@ -51,7 +55,8 @@ const HomePage: React.FC = () => {
       description:
         "Timestamped project uploads on IPFS/Arweave ensuring dispute-free submissions.",
       icon: FileCheck,
-      gradient: "from-orange-600 to-orange-400",
+      accent: "text-orange-400",
+      bgAccent: "bg-orange-500/10",
       benefits: [
         "Immutable Records",
         "Timestamp Proof",
@@ -59,11 +64,12 @@ const HomePage: React.FC = () => {
       ],
     },
     {
-      title: "Sponsor Trust",
+      title: "Sponsor Escrow",
       description:
         "Funds locked in smart contracts, released only when milestones are achieved.",
       icon: Lock,
-      gradient: "from-cyan-600 to-cyan-400",
+      accent: "text-cyan-400",
+      bgAccent: "bg-cyan-500/10",
       benefits: ["Escrow Protection", "Milestone-Based", "Automated Release"],
     },
   ];
@@ -85,294 +91,228 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Subtle grid background */}
-      <div className="fixed inset-0 bg-[linear-gradient(to_right,#0a0a0a_1px,transparent_1px),linear-gradient(to_bottom,#0a0a0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+    <div className="min-h-screen bg-zinc-950 text-zinc-300 font-sans selection:bg-zinc-800 selection:text-white overflow-hidden">
+      
+      {/* Background Ambience */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-zinc-900/20 blur-[100px] rounded-full" />
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+      </div>
 
-      {/* Hero Section */}
+      {/* --- HERO SECTION --- */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20"
+        transition={{ duration: 0.8 }}
+        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-32"
       >
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] animate-pulse delay-1000"></div>
-
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative z-10 text-center"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-center max-w-4xl mx-auto"
         >
           {/* Badge */}
           <motion.div
-            initial={{ y: -20, opacity: 0 }}
+            initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-5 py-2.5 mb-8 backdrop-blur-sm"
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 rounded-full pl-2 pr-4 py-1 mb-8 backdrop-blur-md"
           >
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span className="text-sm font-medium text-gray-300">
-              Powered by Blockchain Technology
+            <div className="bg-zinc-800 p-1 rounded-full">
+              <Sparkles className="w-3 h-3 text-zinc-300" />
+            </div>
+            <span className="text-xs font-medium text-zinc-400 tracking-wide uppercase">
+              Powered by Blockchain
             </span>
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
           </motion.div>
 
           {/* Main Heading */}
           <motion.h1
-            initial={{ y: -30, opacity: 0 }}
+            initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.1] tracking-tight"
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-white"
           >
-            <span className="block text-white">The Future of</span>
-            <span className="block bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
-              Hackathon Management
-            </span>
+            The Future of <br className="hidden md:block" />
+            <span className="text-zinc-500">Hackathon Management</span>
           </motion.h1>
 
           {/* Subheading */}
           <motion.p
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto text-gray-400 leading-relaxed font-light"
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            Build trust, automate rewards, and ensure transparency with our
-            blockchain-powered platform.
-            <span className="block mt-2 text-gray-500">
-              No intermediaries. No disputes. Just pure innovation.
-            </span>
+            Build trust, automate rewards, and ensure transparency. <br className="hidden sm:block" />
+            No intermediaries. No disputes. Just pure innovation.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               onClick={() => router.push("/event")}
-              className="group relative bg-white text-black font-semibold py-4 px-10 rounded-xl transition-all duration-300 overflow-hidden min-w-[200px]"
+              className="group relative h-12 px-8 rounded-lg bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-all duration-200 flex items-center gap-2"
             >
-              <span className="relative z-10 flex items-center gap-2 justify-center">
-                Get Started
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </motion.button>
+              Get Started
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               onClick={() => router.push("/about")}
-              className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold py-4 px-10 rounded-xl transition-all duration-300 backdrop-blur-sm min-w-[200px]"
+              className="h-12 px-8 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 font-medium hover:bg-zinc-800 transition-all duration-200"
             >
               View Demo
-            </motion.button>
+            </button>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats Grid */}
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-24 pt-8 border-t border-zinc-900 max-w-3xl mx-auto"
           >
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-500 uppercase tracking-wider">
+              <div key={index} className="flex flex-col items-center">
+                <span className="text-3xl font-bold text-white tracking-tight">{stat.value}</span>
+                <span className="text-xs font-medium text-zinc-500 uppercase tracking-widest mt-1">
                   {stat.label}
-                </div>
+                </span>
               </div>
             ))}
           </motion.div>
         </motion.div>
       </motion.section>
 
-      {/* Features Section */}
-      <section className="relative py-32 px-4">
-        <div className="max-w-7xl mx-auto">
+      {/* --- FEATURES SECTION --- */}
+      <section className="relative z-10 py-24 px-6 bg-zinc-950/50">
+        <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-16"
           >
-            <div className="inline-block mb-4">
-              <span className="text-sm font-semibold text-blue-400 uppercase tracking-wider">
-                Features
-              </span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
               Why Choose Our Platform?
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light">
-              Everything you need to run a successful, transparent, and secure
-              hackathon
+            <p className="text-zinc-400 max-w-2xl mx-auto text-sm md:text-base">
+              Enterprise-grade infrastructure for successful, transparent, and secure hackathons.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className="group relative bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-white/20 rounded-2xl p-8 transition-all duration-300"
+                className="group p-6 bg-zinc-900/40 border border-zinc-800/60 rounded-xl hover:bg-zinc-900/80 hover:border-zinc-700 transition-all duration-300"
               >
-                {/* Gradient glow on hover */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.03] rounded-2xl transition-opacity duration-300`}
-                ></div>
-
-                {/* Icon */}
-                <div
-                  className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${feature.gradient} mb-6 relative`}
-                >
-                  <feature.icon className="w-7 h-7 text-white relative z-10" />
-                  <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className={`w-10 h-10 rounded-lg ${feature.bgAccent} flex items-center justify-center mb-5 group-hover:scale-105 transition-transform`}>
+                  <feature.icon className={`w-5 h-5 ${feature.accent}`} />
                 </div>
 
-                {/* Content */}
-                <h3 className="text-2xl font-bold mb-3 text-white">
+                <h3 className="text-lg font-semibold text-zinc-100 mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-400 mb-6 leading-relaxed font-light">
+                <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
                   {feature.description}
                 </p>
 
-                {/* Benefits */}
-                <div className="space-y-2">
+                <div className="space-y-2 pt-4 border-t border-zinc-800/50">
                   {feature.benefits.map((benefit, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-2 text-sm text-gray-500"
-                    >
-                      <Check className="w-4 h-4 text-green-500" />
+                    <div key={i} className="flex items-center gap-2 text-xs text-zinc-500">
+                      <Check className="w-3 h-3 text-zinc-600" />
                       <span>{benefit}</span>
                     </div>
                   ))}
                 </div>
-
-                {/* Bottom border accent */}
-                <div
-                  className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full`}
-                ></div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Tech Stack Section */}
-      <section className="relative py-32 px-4 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <div className="inline-block mb-4">
-              <span className="text-sm font-semibold text-purple-400 uppercase tracking-wider">
-                Technology Stack
+      {/* --- TECH STACK SECTION --- */}
+      <section className="relative z-10 py-24 px-6 border-y border-zinc-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
+            
+            <div className="md:w-1/3">
+              <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest block mb-2">
+                Technology
               </span>
+              <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
+                Built with Industry Leaders
+              </h2>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Leveraging the most powerful and trusted blockchain technologies to ensure reliability and speed.
+              </p>
             </div>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
-              Built with{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Industry Leaders
-              </span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light">
-              Leveraging the most powerful and trusted blockchain technologies
-            </p>
-          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {techStack.map((tech, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="group relative bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-white/20 rounded-xl p-8 transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="text-4xl">{tech.icon}</div>
+            <div className="md:w-2/3 grid grid-cols-2 sm:grid-cols-3 gap-4 w-full">
+              {techStack.map((tech, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -2 }}
+                  className="flex items-center gap-3 p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-zinc-700 transition-colors cursor-default"
+                >
+                  <span className="text-xl filter grayscale group-hover:grayscale-0">{tech.icon}</span>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">
+                    <h3 className="text-sm font-semibold text-zinc-200">
                       {tech.name}
                     </h3>
-                    <p className="text-sm text-gray-500">{tech.description}</p>
+                    <p className="text-[10px] text-zinc-500 uppercase tracking-wide">
+                      {tech.description}
+                    </p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-32 px-4">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-cyan-600/10 border border-white/10 rounded-3xl p-12 md:p-20 text-center overflow-hidden"
-          >
-            {/* Background pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:3rem_3rem]"></div>
-
+      {/* --- CTA SECTION --- */}
+      <section className="relative z-10 py-32 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center overflow-hidden">
+            {/* Texture Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
+            
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
                 Ready to Get Started?
               </h2>
-              <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-                Join thousands of developers, sponsors, and organizers building
-                the future of hackathons
+              <p className="text-base text-zinc-400 mb-10 max-w-2xl mx-auto">
+                Join thousands of organizers building the future of competitive events.
               </p>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              
+              <button
                 onClick={() => router.push("/login")}
-                className="group relative bg-white text-black font-semibold py-5 px-12 rounded-xl transition-all duration-300 overflow-hidden inline-flex items-center gap-3"
+                className="inline-flex items-center justify-center h-12 px-8 rounded-lg bg-white text-zinc-950 font-bold hover:bg-zinc-200 transition-colors shadow-xl shadow-zinc-950/50"
               >
-                <span className="relative z-10">
-                  Create Your First Hackathon
-                </span>
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </motion.button>
+                Create Your First Hackathon
+              </button>
 
-              <div className="mt-8 text-sm text-gray-500">
+              <p className="mt-6 text-xs text-zinc-600">
                 No credit card required • Free to start • Cancel anytime
-              </div>
+              </p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
-
-      {/* Footer spacer */}
-      <div className="h-20"></div>
     </div>
   );
 };

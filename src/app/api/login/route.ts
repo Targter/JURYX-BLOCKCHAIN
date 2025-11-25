@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
           },
         });
       }
-
+      console.log("cookiesSetForOrganizer going to...")
       // Set cookies for organizer
       const cookieStore = await cookies();
       cookieStore.set('user_id', existingUser.id.toString(), { 
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 
       });
-
+      console.log("cookiesSetForOrganizer done.")
       return NextResponse.json({
         message: "Login successful",
         user: existingUser,
@@ -210,6 +210,7 @@ export async function POST(request: NextRequest) {
           );
         }
       } else if (role === "USER") {
+
         console.log("userCalled")
         codeRecord = await prisma.participantCode.findUnique({
           where: { eventId },
@@ -273,6 +274,7 @@ export async function POST(request: NextRequest) {
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 
       });
+      console.log("userRole:",user.email)
       console.log("userEmail:",user.email)
       cookieStore.set('user_email', user.email, { 
         httpOnly: true, 
