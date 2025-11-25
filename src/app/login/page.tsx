@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useUserDetails } from "@/hooks/useStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -42,7 +42,8 @@ type LoginPayload = OrganizerLoginPayload | OtherLoginPayload;
 
 export default function Login() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
+  const searchParams = useParams();
   const { setUser } = useUserDetails();
 
   // --- State ---
