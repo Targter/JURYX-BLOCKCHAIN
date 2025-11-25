@@ -1,4 +1,3 @@
-
 // newww
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -81,7 +80,7 @@ const UserUpload = () => {
         <input
           type="file"
           multiple
-          //@ts-expect-error
+          // @ts-expect-error - webkitdirectory is a non-standard attribute for folder uploads
           webkitdirectory="true"
           id="folder-upload"
           className="hidden"
