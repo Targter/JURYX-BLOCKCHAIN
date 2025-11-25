@@ -21,7 +21,7 @@
 //   participants: UserProject[]; // Team members
 //   scores:Score[];
 // };
-// // 
+// //
 // type Score = {
 //   id: string;
 //   marks: number;
@@ -35,7 +35,7 @@
 //   order: number;
 //   eventId: string;
 // };
-// // 
+// //
 // type FileNode = {
 //   type: 'file';
 //   name: string;
@@ -66,11 +66,11 @@
 //   };
 // };
 // export default function PanelistDashboard() {
-  
+
 //   const {eventId} = useParams();
-//   const {user} = useUserDetails(); 
+//   const {user} = useUserDetails();
 //   // const [users, setUsers] = useState<UserProject[]>([]);
-//   const [teams, setTeams] = useState<Team[]>([]); 
+//   const [teams, setTeams] = useState<Team[]>([]);
 //   const [loading, setLoading] = useState(false);
 //   const [serverUrl, setServerUrl] = useState<string | null>(null);
 //   const [webContainerInstance, setWebContainerInstance] = useState<WebContainer | null>(null);
@@ -122,7 +122,6 @@
 //   //   // Remove the empty root and return immediate children
 //   //   return root.children;
 //   // };
-
 
 //   useEffect(() => {
 //     console.log("Participant Details calling......")
@@ -262,7 +261,7 @@
 //     }
 //   };
 
-//   // 
+//   //
 
 //   // const [teamScores, setTeamScores] = useState<Record<string, { score: number; remarks: string }>>({});
 
@@ -346,10 +345,10 @@
 //         axios.get(`/api/panelist/round?eventId=${eventId}&userId=${user.id}`)
 //       ]);
 //       console.log("roundResult:",roundsResponse)
-      
+
 //       // setTeams(teamsResponse.data.teams);
 //       setRounds(roundsResponse.data.rounds);
-      
+
 //       // Select the first round by default if available
 //       if (roundsResponse.data.rounds.length > 0) {
 //         setSelectedRoundId(roundsResponse.data.rounds[0].id);
@@ -364,7 +363,7 @@
 
 //   fetchData();
 // }, [eventId]);
-// // 
+// //
 // const [rounds, setRounds] = useState<Round[]>([]);
 
 // // useEffect(() => {
@@ -378,7 +377,7 @@
 //   return (
 //     <div className="p-8">
 //     <h1 className="text-3xl font-bold mb-6">Panelist Dashboard</h1>
-    
+
 //     {error && (
 //       <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
 //         Error: {error}
@@ -549,13 +548,13 @@
 //   </form>
 // );
 // }
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { unzipFromUrl } from '@/libs/unzip-utils'
-import { useParams } from 'next/navigation'
-import { useUserDetails } from '@/hooks/useStore'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { unzipFromUrl } from "@/libs/unzip-utils";
+import { useParams } from "next/navigation";
+import { useUserDetails } from "@/hooks/useStore";
 import {
   SandpackProvider,
   SandpackLayout,
@@ -565,7 +564,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
 import { Loader2Icon, ChevronRight, ChevronDown, FileText } from "lucide-react";
-import Lookup from '@/component/Lookup'
+import Lookup from "@/component/Lookup";
 
 // Types remain the same as before
 type UserProject = {
@@ -625,24 +624,28 @@ export default function PanelistDashboard() {
     teams: false,
     rounds: false,
     preview: false,
-    scores:false,
+    scores: false,
   });
   const [error, setError] = useState<string | null>(null);
   const [selectedRoundId, setSelectedRoundId] = useState<string | null>(null);
-  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>(Lookup.DEFAULT_FILE);
+  const [sandpackFiles, setSandpackFiles] = useState<SandpackFiles>(
+    Lookup.DEFAULT_FILE
+  );
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [rounds, setRounds] = useState<Round[]>([]);
-  const [currentPreview, setCurrentPreview] = useState<{ 
-    name: string; 
-    type: 'team' | 'participant'; 
-    timestamp: number 
+  const [currentPreview, setCurrentPreview] = useState<{
+    name: string;
+    type: "team" | "participant";
+    timestamp: number;
   } | null>(null);
-  const [expandedTeams, setExpandedTeams] = useState<Record<string, boolean>>({});
+  const [expandedTeams, setExpandedTeams] = useState<Record<string, boolean>>(
+    {}
+  );
 
   const toggleTeamExpansion = (teamId: string) => {
-    setExpandedTeams(prev => ({
+    setExpandedTeams((prev) => ({
       ...prev,
-      [teamId]: !prev[teamId]
+      [teamId]: !prev[teamId],
     }));
   };
 
@@ -658,22 +661,24 @@ export default function PanelistDashboard() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        setLoading(prev => ({ ...prev, teams: true }));
-        const { data } = await axios.post('/api/panelist', { eventId });
+        setLoading((prev) => ({ ...prev, teams: true }));
+        const { data } = await axios.post("/api/panelist", { eventId });
         setTeams(data.teams);
-        
+
         // Initialize expanded state for each team
-        const initialExpandedState = data.teams.reduce((acc: Record<string, boolean>, team: Team) => {
-          acc[team.id] = false;
-          return acc;
-        }, {} as Record<string, boolean> // Explicit type assertion
-);
+        const initialExpandedState = data.teams.reduce(
+          (acc: Record<string, boolean>, team: Team) => {
+            acc[team.id] = false;
+            return acc;
+          },
+          {} as Record<string, boolean> // Explicit type assertion
+        );
         setExpandedTeams(initialExpandedState);
       } catch (err) {
-        setError('Failed to load teams');
-        console.error(err); 
+        setError("Failed to load teams");
+        console.error(err);
       } finally {
-        setLoading(prev => ({ ...prev, teams: false }));
+        setLoading((prev) => ({ ...prev, teams: false }));
       }
     };
     fetchUsers();
@@ -682,22 +687,22 @@ export default function PanelistDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(prev => ({ ...prev, rounds: true }));
+        setLoading((prev) => ({ ...prev, rounds: true }));
         if (!user) return;
-        
+
         const [roundsResponse] = await Promise.all([
-          axios.get(`/api/panelist/round?eventId=${eventId}&userId=${user.id}`)
+          axios.get(`/api/panelist/round?eventId=${eventId}&userId=${user.id}`),
         ]);
-        
+
         setRounds(roundsResponse.data.rounds);
         if (roundsResponse.data.rounds.length > 0) {
           setSelectedRoundId(roundsResponse.data.rounds[0].id);
         }
       } catch (err) {
-        setError('Failed to fetch rounds data');
+        setError("Failed to fetch rounds data");
         console.error(err);
       } finally {
-        setLoading(prev => ({ ...prev, rounds: false }));
+        setLoading((prev) => ({ ...prev, rounds: false }));
       }
     };
 
@@ -722,8 +727,12 @@ export default function PanelistDashboard() {
     return foundEntry || Object.keys(sandpackFiles)[0];
   };
 
-  const previewProject = async (zipUrl: string, name: string, type: 'team' | 'participant') => {
-    setLoading(prev => ({ ...prev, preview: true }));
+  const previewProject = async (
+    zipUrl: string,
+    name: string,
+    type: "team" | "participant"
+  ) => {
+    setLoading((prev) => ({ ...prev, preview: true }));
     setError(null);
     setSandpackFiles({} as SandpackFiles);
     setCurrentPreview({ name, type, timestamp: Date.now() });
@@ -734,8 +743,8 @@ export default function PanelistDashboard() {
 
       // Process each file in the zip
       for (const [filePath, content] of Object.entries(files)) {
-        const pathParts = filePath.split('/');
-        const cleanPath = '/' + pathParts.slice(1).join('/');
+        const pathParts = filePath.split("/");
+        const cleanPath = "/" + pathParts.slice(1).join("/");
 
         if (shouldExcludeFile(cleanPath)) continue;
         if (!filePath.match(/\.(js|jsx|ts|tsx|css|scss|html|json|md|txt)$/i)) {
@@ -743,7 +752,10 @@ export default function PanelistDashboard() {
         }
 
         try {
-          const fileContent = typeof content === 'string' ? content : new TextDecoder().decode(content);
+          const fileContent =
+            typeof content === "string"
+              ? content
+              : new TextDecoder().decode(content);
           filesObj[cleanPath] = { code: fileContent, hidden: false };
         } catch (error) {
           console.warn(`Could not read file ${cleanPath}:`, error);
@@ -752,67 +764,80 @@ export default function PanelistDashboard() {
 
       // Fallback if no files found
       if (Object.keys(filesObj).length === 0) {
-        filesObj['/App.js'] = {
+        filesObj["/App.js"] = {
           code: "// No previewable files found in the project",
-          hidden: false
+          hidden: false,
         };
       }
 
       setSandpackFiles(filesObj);
     } catch (error) {
       console.error("Error previewing project:", error);
-      setError(error instanceof Error ? error.message : 'Failed to preview project');
+      setError(
+        error instanceof Error ? error.message : "Failed to preview project"
+      );
       setCurrentPreview(null);
     } finally {
-      setLoading(prev => ({ ...prev, preview: false }));
+      setLoading((prev) => ({ ...prev, preview: false }));
     }
   };
 
-  const handleScoreSubmission = async (teamId: string, marks: number, remarks: string) => {
+  const handleScoreSubmission = async (
+    teamId: string,
+    marks: number,
+    remarks: string
+  ) => {
     if (!selectedRoundId) {
-      setError('Please select a round first');
+      setError("Please select a round first");
       return;
     }
 
     try {
       if (!user) return;
-      
-      setLoading(prev => ({ ...prev, scores: true }));
-      await axios.post('/api/panelist/score', {
+
+      setLoading((prev) => ({ ...prev, scores: true }));
+      await axios.post("/api/panelist/score", {
         teamId,
         roundId: selectedRoundId,
         marks,
         remarks,
-        userId: user.id
+        userId: user.id,
       });
 
-      setTeams(prevTeams => prevTeams.map(team => {
-        if (team.id === teamId) {
-          const existingScoreIndex = team.scores.findIndex(
-            score => score.roundId === selectedRoundId
-          );
+      setTeams((prevTeams) =>
+        prevTeams.map((team) => {
+          if (team.id === teamId) {
+            const existingScoreIndex = team.scores.findIndex(
+              (score) => score.roundId === selectedRoundId
+            );
 
-          const newScore = { id: '', marks, remarks, roundId: selectedRoundId };
+            const newScore = {
+              id: "",
+              marks,
+              remarks,
+              roundId: selectedRoundId,
+            };
 
-          if (existingScoreIndex >= 0) {
-            const updatedScores = [...team.scores];
-            updatedScores[existingScoreIndex] = newScore;
-            return { ...team, scores: updatedScores };
+            if (existingScoreIndex >= 0) {
+              const updatedScores = [...team.scores];
+              updatedScores[existingScoreIndex] = newScore;
+              return { ...team, scores: updatedScores };
+            }
+            return { ...team, scores: [...team.scores, newScore] };
           }
-          return { ...team, scores: [...team.scores, newScore] };
-        }
-        return team;
-      }));
+          return team;
+        })
+      );
     } catch (error) {
-      setError('Failed to submit score');
+      setError("Failed to submit score");
       console.error(error);
     } finally {
-      setLoading(prev => ({ ...prev, scores: false }));
+      setLoading((prev) => ({ ...prev, scores: false }));
     }
   };
 
   const getTeamScoreForRound = (team: Team, roundId: string) => {
-    return team.scores.find(score => score.roundId === roundId);
+    return team.scores.find((score) => score.roundId === roundId);
   };
 
   const handleTabChange = (tab: "code" | "preview") => {
@@ -823,7 +848,9 @@ export default function PanelistDashboard() {
     <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-blue-400">Panelist Dashboard</h1>
+          <h1 className="text-3xl font-bold text-blue-400">
+            Panelist Dashboard
+          </h1>
           <p className="text-gray-400">Evaluate and score team projects</p>
         </header>
 
@@ -832,7 +859,7 @@ export default function PanelistDashboard() {
             <div className="flex items-center">
               <span className="text-red-400 font-medium">Error:</span>
               <span className="ml-2">{error}</span>
-              <button 
+              <button
                 onClick={() => setError(null)}
                 className="ml-auto text-red-300 hover:text-white"
               >
@@ -846,7 +873,9 @@ export default function PanelistDashboard() {
           <div className="lg:col-span-2 space-y-6">
             {/* Rounds Selection */}
             <div className="bg-gray-800 rounded-lg p-4 shadow-lg">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Select Round:</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Select Round:
+              </label>
               <div className="relative">
                 {loading.rounds && (
                   <div className="absolute inset-y-0 right-3 flex items-center">
@@ -854,14 +883,20 @@ export default function PanelistDashboard() {
                   </div>
                 )}
                 <select
-                  value={selectedRoundId ?? ''}
+                  value={selectedRoundId ?? ""}
                   onChange={(e) => setSelectedRoundId(e.target.value)}
                   className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:ring-blue-500 focus:border-blue-500"
                   disabled={loading.rounds || rounds.length === 0}
                 >
-                  <option value="" disabled>Select a round</option>
-                  {rounds.map(round => (
-                    <option key={round.id} value={round.id} className="bg-gray-800">
+                  <option value="" disabled>
+                    Select a round
+                  </option>
+                  {rounds.map((round) => (
+                    <option
+                      key={round.id}
+                      value={round.id}
+                      className="bg-gray-800"
+                    >
                       {round.order}. {round.name}
                     </option>
                   ))}
@@ -871,8 +906,10 @@ export default function PanelistDashboard() {
 
             {/* Teams List */}
             <div className="bg-gray-800 rounded-lg p-4 shadow-lg">
-              <h2 className="text-xl font-semibold text-blue-400 mb-4">Teams</h2>
-              
+              <h2 className="text-xl font-semibold text-blue-400 mb-4">
+                Teams
+              </h2>
+
               {loading.teams ? (
                 <div className="flex justify-center py-8">
                   <Loader2Icon className="animate-spin h-8 w-8 text-blue-400" />
@@ -883,8 +920,11 @@ export default function PanelistDashboard() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {teams.map(team => (
-                    <div key={team.id} className="bg-gray-700/50 rounded-lg overflow-hidden">
+                  {teams.map((team) => (
+                    <div
+                      key={team.id}
+                      className="bg-gray-700/50 rounded-lg overflow-hidden"
+                    >
                       <button
                         onClick={() => toggleTeamExpansion(team.id)}
                         className="w-full flex items-center justify-between p-4 hover:bg-gray-700 transition-colors"
@@ -904,12 +944,17 @@ export default function PanelistDashboard() {
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              previewProject(team.projectUrl!, team.name, 'team');
+                              previewProject(
+                                team.projectUrl!,
+                                team.name,
+                                "team"
+                              );
                             }}
                             className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-colors flex items-center"
                             disabled={loading.preview}
                           >
-                            {loading.preview && currentPreview?.name === team.name ? (
+                            {loading.preview &&
+                            currentPreview?.name === team.name ? (
                               <Loader2Icon className="animate-spin h-4 w-4 mr-1" />
                             ) : (
                               <FileText className="h-4 w-4 mr-1" />
@@ -922,26 +967,42 @@ export default function PanelistDashboard() {
                       {expandedTeams[team.id] && (
                         <div className="p-4 pt-2 border-t border-gray-600">
                           <div className="mb-4">
-                            <h3 className="text-sm font-medium text-gray-300 mb-2">Team Members</h3>
+                            <h3 className="text-sm font-medium text-gray-300 mb-2">
+                              Team Members
+                            </h3>
                             <ul className="space-y-2">
-                              {team.participants.map(member => (
-                                <li key={member.id} className="flex items-center justify-between bg-gray-700 p-3 rounded-md">
+                              {team.participants.map((member) => (
+                                <li
+                                  key={member.id}
+                                  className="flex items-center justify-between bg-gray-700 p-3 rounded-md"
+                                >
                                   <div>
-                                    <p className="font-medium">{member.email}</p>
+                                    <p className="font-medium">
+                                      {member.email}
+                                    </p>
                                     {/* <p className="text-xs text-gray-400">
                                      {member.storageUrl ? 'Project uploaded' : 'No project uploaded'}
                                     </p> */}
                                     <p className="text-xs text-gray-400">
-  {member.storageUrl ? `Project uploaded` : `No project uploaded`}
-</p>
+                                      {member.storageUrl
+                                        ? `Project uploaded`
+                                        : `No project uploaded`}
+                                    </p>
                                   </div>
                                   {member.storageUrl && (
                                     <button
-                                      onClick={() => previewProject(member.storageUrl!, member.email, 'participant')}
+                                      onClick={() =>
+                                        previewProject(
+                                          member.storageUrl!,
+                                          member.email,
+                                          "participant"
+                                        )
+                                      }
                                       className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-colors flex items-center"
                                       disabled={loading.preview}
                                     >
-                                      {loading.preview && currentPreview?.name === member.email ? (
+                                      {loading.preview &&
+                                      currentPreview?.name === member.email ? (
                                         <Loader2Icon className="animate-spin h-4 w-4 mr-1" />
                                       ) : (
                                         <FileText className="h-4 w-4 mr-1" />
@@ -957,11 +1018,18 @@ export default function PanelistDashboard() {
                           {selectedRoundId && (
                             <div className="mt-4">
                               <h3 className="text-sm font-medium text-gray-300 mb-2">
-                                Score for {rounds.find(r => r.id === selectedRoundId)?.name}
+                                Score for{" "}
+                                {
+                                  rounds.find((r) => r.id === selectedRoundId)
+                                    ?.name
+                                }
                               </h3>
                               <ScoreForm
                                 teamId={team.id}
-                                existingScore={getTeamScoreForRound(team, selectedRoundId)}
+                                existingScore={getTeamScoreForRound(
+                                  team,
+                                  selectedRoundId
+                                )}
                                 onSubmit={handleScoreSubmission}
                                 loading={loading.scores}
                               />
@@ -983,8 +1051,11 @@ export default function PanelistDashboard() {
                 <h2 className="text-xl font-semibold text-blue-400">
                   {currentPreview ? (
                     <>
-                      Preview: <span className="text-white">{currentPreview.name}</span>
-                      <span className="text-sm text-gray-400 ml-2">({currentPreview.type})</span>
+                      Preview:{" "}
+                      <span className="text-white">{currentPreview.name}</span>
+                      <span className="text-sm text-gray-400 ml-2">
+                        ({currentPreview.type})
+                      </span>
                     </>
                   ) : (
                     "Project Preview"
@@ -1004,13 +1075,21 @@ export default function PanelistDashboard() {
                   <div className="flex border-b border-gray-700">
                     <button
                       onClick={() => handleTabChange("code")}
-                      className={`flex-1 py-2 text-sm font-medium ${activeTab === "code" ? "bg-gray-700 text-blue-400" : "text-gray-400 hover:bg-gray-700/50"}`}
+                      className={`flex-1 py-2 text-sm font-medium ${
+                        activeTab === "code"
+                          ? "bg-gray-700 text-blue-400"
+                          : "text-gray-400 hover:bg-gray-700/50"
+                      }`}
                     >
                       Code Editor
                     </button>
                     <button
                       onClick={() => handleTabChange("preview")}
-                      className={`flex-1 py-2 text-sm font-medium ${activeTab === "preview" ? "bg-gray-700 text-blue-400" : "text-gray-400 hover:bg-gray-700/50"}`}
+                      className={`flex-1 py-2 text-sm font-medium ${
+                        activeTab === "preview"
+                          ? "bg-gray-700 text-blue-400"
+                          : "text-gray-400 hover:bg-gray-700/50"
+                      }`}
                     >
                       Live Preview
                     </button>
@@ -1018,7 +1097,11 @@ export default function PanelistDashboard() {
 
                   <div className="flex-1 overflow-hidden">
                     <SandpackProvider
-                      key={currentPreview ? `${currentPreview.name}-${currentPreview.type}-${currentPreview.timestamp}` : 'default'}
+                      key={
+                        currentPreview
+                          ? `${currentPreview.name}-${currentPreview.type}-${currentPreview.timestamp}`
+                          : "default"
+                      }
                       files={sandpackFiles}
                       template="react-ts"
                       theme={nightOwl}
@@ -1039,7 +1122,7 @@ export default function PanelistDashboard() {
                         {activeTab === "code" ? (
                           <div className="flex h-full">
                             <div className="w-48 border-r border-gray-700">
-                              <SandpackFileExplorer 
+                              <SandpackFileExplorer
                                 autoHiddenFiles={false}
                                 style={{ height: "100%" }}
                               />
@@ -1071,7 +1154,10 @@ export default function PanelistDashboard() {
                   <div className="text-center text-gray-500">
                     <FileText className="h-10 w-10 mx-auto mb-3 text-gray-600" />
                     <p>Select a project to preview</p>
-                    <p className="text-sm mt-1">Click on any "Preview" button to view the project</p>
+                    <p className="text-sm mt-1">
+                      Click on any &quot;Preview&quot; button to view the
+                      project
+                    </p>
                   </div>
                 </div>
               )}
@@ -1087,7 +1173,7 @@ function ScoreForm({
   teamId,
   existingScore,
   onSubmit,
-  loading
+  loading,
 }: {
   teamId: string;
   existingScore?: {
@@ -1097,8 +1183,8 @@ function ScoreForm({
   onSubmit: (teamId: string, marks: number, remarks: string) => void;
   loading?: boolean;
 }) {
-  const [marks, setMarks] = useState(existingScore?.marks?.toString() || '');
-  const [remarks, setRemarks] = useState(existingScore?.remarks || '');
+  const [marks, setMarks] = useState(existingScore?.marks?.toString() || "");
+  const [remarks, setRemarks] = useState(existingScore?.remarks || "");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1109,7 +1195,9 @@ function ScoreForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-1">Score (0-100)</label>
+        <label className="block text-sm font-medium text-gray-300 mb-1">
+          Score (0-100)
+        </label>
         <input
           type="number"
           min="0"
@@ -1121,7 +1209,9 @@ function ScoreForm({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-1">Remarks</label>
+        <label className="block text-sm font-medium text-gray-300 mb-1">
+          Remarks
+        </label>
         <textarea
           rows={3}
           value={remarks}
@@ -1139,7 +1229,11 @@ function ScoreForm({
             <Loader2Icon className="animate-spin h-4 w-4 mr-2" />
             Submitting...
           </>
-        ) : existingScore ? 'Update Score' : 'Submit Score'}
+        ) : existingScore ? (
+          "Update Score"
+        ) : (
+          "Submit Score"
+        )}
       </button>
     </form>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useUserDetails } from "@/hooks/useStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -108,12 +108,16 @@ export default function Login() {
       }
 
       router.push(response.data.route);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(
-        err.response?.data?.message ||
-          "Login failed. Please check your credentials."
-      );
+      if (err instanceof AxiosError) {
+        setError(
+          err.response?.data?.message ||
+            "Login failed. Please check your credentials."
+        );
+      } else {
+        setError("Login failed. Please check your credentials.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +131,7 @@ export default function Login() {
   }: {
     value: Role;
     label: string;
-    icon: any;
+    icon: React.FC<React.SVGProps<SVGSVGElement>>;
   }) => (
     <button
       type="button"

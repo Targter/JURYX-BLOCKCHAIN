@@ -8,11 +8,9 @@ import {
   Users,
   FileCheck,
   Lock,
-  ChevronRight,
   Sparkles,
   ArrowRight,
   Check,
-  Terminal,
 } from "lucide-react";
 
 const HomePage: React.FC = () => {
@@ -92,7 +90,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-300 font-sans selection:bg-zinc-800 selection:text-white overflow-hidden">
-      
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-zinc-900/20 blur-[100px] rounded-full" />
@@ -146,7 +143,8 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            Build trust, automate rewards, and ensure transparency. <br className="hidden sm:block" />
+            Build trust, automate rewards, and ensure transparency.{" "}
+            <br className="hidden sm:block" />
             No intermediaries. No disputes. Just pure innovation.
           </motion.p>
 
@@ -182,7 +180,9 @@ const HomePage: React.FC = () => {
           >
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col items-center">
-                <span className="text-3xl font-bold text-white tracking-tight">{stat.value}</span>
+                <span className="text-3xl font-bold text-white tracking-tight">
+                  {stat.value}
+                </span>
                 <span className="text-xs font-medium text-zinc-500 uppercase tracking-widest mt-1">
                   {stat.label}
                 </span>
@@ -205,7 +205,8 @@ const HomePage: React.FC = () => {
               Why Choose Our Platform?
             </h2>
             <p className="text-zinc-400 max-w-2xl mx-auto text-sm md:text-base">
-              Enterprise-grade infrastructure for successful, transparent, and secure hackathons.
+              Enterprise-grade infrastructure for successful, transparent, and
+              secure hackathons.
             </p>
           </motion.div>
 
@@ -219,7 +220,9 @@ const HomePage: React.FC = () => {
                 viewport={{ once: true }}
                 className="group p-6 bg-zinc-900/40 border border-zinc-800/60 rounded-xl hover:bg-zinc-900/80 hover:border-zinc-700 transition-all duration-300"
               >
-                <div className={`w-10 h-10 rounded-lg ${feature.bgAccent} flex items-center justify-center mb-5 group-hover:scale-105 transition-transform`}>
+                <div
+                  className={`w-10 h-10 rounded-lg ${feature.bgAccent} flex items-center justify-center mb-5 group-hover:scale-105 transition-transform`}
+                >
                   <feature.icon className={`w-5 h-5 ${feature.accent}`} />
                 </div>
 
@@ -232,7 +235,10 @@ const HomePage: React.FC = () => {
 
                 <div className="space-y-2 pt-4 border-t border-zinc-800/50">
                   {feature.benefits.map((benefit, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-zinc-500">
+                    <div
+                      key={i}
+                      className="flex items-center gap-2 text-xs text-zinc-500"
+                    >
                       <Check className="w-3 h-3 text-zinc-600" />
                       <span>{benefit}</span>
                     </div>
@@ -248,7 +254,6 @@ const HomePage: React.FC = () => {
       <section className="relative z-10 py-24 px-6 border-y border-zinc-900">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
-            
             <div className="md:w-1/3">
               <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest block mb-2">
                 Technology
@@ -257,7 +262,8 @@ const HomePage: React.FC = () => {
                 Built with Industry Leaders
               </h2>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Leveraging the most powerful and trusted blockchain technologies to ensure reliability and speed.
+                Leveraging the most powerful and trusted blockchain technologies
+                to ensure reliability and speed.
               </p>
             </div>
 
@@ -268,7 +274,9 @@ const HomePage: React.FC = () => {
                   whileHover={{ y: -2 }}
                   className="flex items-center gap-3 p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-zinc-700 transition-colors cursor-default"
                 >
-                  <span className="text-xl filter grayscale group-hover:grayscale-0">{tech.icon}</span>
+                  <span className="text-xl filter grayscale group-hover:grayscale-0">
+                    {tech.icon}
+                  </span>
                   <div>
                     <h3 className="text-sm font-semibold text-zinc-200">
                       {tech.name}
@@ -290,15 +298,16 @@ const HomePage: React.FC = () => {
           <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center overflow-hidden">
             {/* Texture Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
-            
+
             <div className="relative z-10">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
                 Ready to Get Started?
               </h2>
               <p className="text-base text-zinc-400 mb-10 max-w-2xl mx-auto">
-                Join thousands of organizers building the future of competitive events.
+                Join thousands of organizers building the future of competitive
+                events.
               </p>
-              
+
               <button
                 onClick={() => router.push("/login")}
                 className="inline-flex items-center justify-center h-12 px-8 rounded-lg bg-white text-zinc-950 font-bold hover:bg-zinc-200 transition-colors shadow-xl shadow-zinc-950/50"
