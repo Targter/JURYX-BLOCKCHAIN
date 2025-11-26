@@ -4,7 +4,6 @@ import "./globals.css";
 import { AuthProvider } from "@/component/auth/AuthProvider";
 import Navbar from "@/component/UserNavbar";
 
-
 export const metadata: Metadata = {
   title: {
     default: "Abhay Bansal | Full Stack & AI Developer Portfolio",
@@ -119,6 +118,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       {/* ${geistSans.variable} ${geistMono.variable} */}
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={` antialiased`}>
         <AuthProvider>
           <div className="">
