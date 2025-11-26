@@ -6,11 +6,11 @@ import Navbar from "@/component/UserNavbar";
 
 export const metadata: Metadata = {
   title: {
-    default: "Abhay Bansal | Full Stack & AI Developer Portfolio",
+    default: "JURYX | ABHAY BANSAL",
     template: "%s | Abhay Bansal",
   },
   description:
-    "Professional portfolio of Abhay Bansal - Full Stack Developer specializing in AI, 3D web applications, and modern JavaScript frameworks. View my projects, skills, and work experience.",
+    "BLOCKCHAIN-POWERED JURY MANAGEMENT SYSTEM BY ABHAY BANSAL. Streamline jury selection, enhance transparency, and ensure fair trials with our decentralized platform.",
   keywords: [
     "Abhay Bansal",
     "Abhay Bansal Portfolio",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         url: "https://abhaybansal.in/abhay.jpg",
         width: 1200,
         height: 630,
-        alt: "Abhay Bansal Portfolio",
+        alt: "JURYX | ABHAY BANSAL",
       },
     ],
   },
