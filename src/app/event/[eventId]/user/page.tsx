@@ -13,14 +13,13 @@
 //   }
 // export default function UserEventDashboard() {
 //   const { eventId } = useParams();
-//   const {user} = useUserDetails(); 
+//   const {user} = useUserDetails();
 //   console.log(user)
 //   const router = useRouter();
 //   const [teamName, setTeamName] = useState("");
 //   const [joinCode, setJoinCode] = useState("");
 //   const [message, setMessage] = useState("");
-//   const [userTeam, setUserTeam] = useState<Team | null>(null); 
-
+//   const [userTeam, setUserTeam] = useState<Team | null>(null);
 
 //   useEffect(() => {
 //     // Fetch the user's team details when the component mounts
@@ -46,7 +45,7 @@
 //   const handleCreateTeam = async () => {
 //     try {
 //         if(!user){
-//             return 
+//             return
 //         }
 //       const res = await axios.post("/api/users/createTeam", {
 //         eventId,
@@ -66,7 +65,7 @@
 //   const handleJoinTeam = async () => {
 //     try {
 //         if(!user){
-//             return 
+//             return
 //         }
 //       const res = await axios.post("/api/users/joinTeam", {
 //         eventId,
@@ -124,7 +123,7 @@
 //     ) : (
 //       // If the user already has a team, display team info or redirect
 //       <>
-      
+
 //       <p className="text-green-500">You are already part of the team: {userTeam.name}</p>
 //       <button
 //             onClick={() => router.push(`/event/${eventId}/user/upload`)}
@@ -139,7 +138,6 @@
 //   </div>
 // );
 // }
-
 
 "use client";
 
@@ -174,13 +172,16 @@ export default function UserEventDashboard() {
   // --- State ---
   const [teamName, setTeamName] = useState("");
   const [joinCode, setJoinCode] = useState("");
-  
+
   // UI State
   const [userTeam, setUserTeam] = useState<Team | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState<"create" | "join">("create");
-  const [feedback, setFeedback] = useState<{ type: "success" | "error"; msg: string } | null>(null);
+  const [feedback, setFeedback] = useState<{
+    type: "success" | "error";
+    msg: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchUserTeam = async () => {
@@ -191,7 +192,7 @@ export default function UserEventDashboard() {
         const res = await axios.get(
           `/api/users/getTeam?eventId=${eventId}&userId=${user.id}`
         );
-        
+        console.log("Fetched user team:", res.data);
         if (res.data.team) {
           setUserTeam(res.data.team);
         }
@@ -221,17 +222,22 @@ export default function UserEventDashboard() {
         userId: user.id,
       });
 
-      setFeedback({ type: "success", msg: `Team "${res.data.team.name}" created!` });
+      setFeedback({
+        type: "success",
+        msg: `Team "${res.data.team.name}" created!`,
+      });
       setUserTeam(res.data.team); // Update local state immediately
-      
+
       // Optional delay before redirect to let user see success message
       setTimeout(() => {
         router.push(`./user/upload`);
       }, 1000);
-
     } catch (error) {
       console.error(error);
-      setFeedback({ type: "error", msg: "Failed to create team. Name might be taken." });
+      setFeedback({
+        type: "error",
+        msg: "Failed to create team. Name might be taken.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -253,12 +259,11 @@ export default function UserEventDashboard() {
 
       setFeedback({ type: "success", msg: "Successfully joined the team!" });
       // Fetch updated team info (or rely on response if backend sends it)
-       setUserTeam(res.data.team || { id: "unknown", name: "Your Team" });
-       
+      setUserTeam(res.data.team || { id: "unknown", name: "Your Team" });
+
       setTimeout(() => {
         router.push(`./user/upload`);
       }, 1000);
-
     } catch (error) {
       console.error(error);
       setFeedback({ type: "error", msg: "Invalid join code or team is full." });
@@ -271,13 +276,14 @@ export default function UserEventDashboard() {
   const LoadingView = () => (
     <div className="flex flex-col items-center justify-center h-full">
       <Loader2 className="w-10 h-10 text-indigo-500 animate-spin mb-4" />
-      <p className="text-zinc-500 text-sm animate-pulse">Syncing participation data...</p>
+      <p className="text-zinc-500 text-sm animate-pulse">
+        Syncing participation data...
+      </p>
     </div>
   );
 
   return (
     <div className="h-[calc(100vh-70px)] bg-zinc-950 text-zinc-300 font-sans selection:bg-indigo-500/30 overflow-hidden relative flex items-center justify-center px-4">
-      
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-indigo-900/10 rounded-full blur-[120px]" />
@@ -286,7 +292,6 @@ export default function UserEventDashboard() {
       </div>
 
       <div className="w-full max-w-xl relative z-10">
-        
         {isLoading ? (
           <LoadingView />
         ) : userTeam ? (
@@ -300,7 +305,9 @@ export default function UserEventDashboard() {
               <div className="w-16 h-16 bg-zinc-900 border border-zinc-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                 <Trophy className="w-8 h-8 text-yellow-500" />
               </div>
-              <h2 className="text-2xl font-bold text-white tracking-tight">{userTeam.name}</h2>
+              <h2 className="text-2xl font-bold text-white tracking-tight">
+                {userTeam.name}
+              </h2>
               <div className="flex items-center justify-center gap-2 mt-2">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -311,9 +318,10 @@ export default function UserEventDashboard() {
 
             <div className="p-8">
               <p className="text-center text-zinc-400 text-sm mb-6">
-                You are all set! Access your team workspace to submit projects and view status.
+                You are all set! Access your team workspace to submit projects
+                and view status.
               </p>
-              
+
               <button
                 onClick={() => router.push(`/event/${eventId}/user/upload`)}
                 className="w-full py-3.5 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-white/5"
@@ -323,7 +331,6 @@ export default function UserEventDashboard() {
               </button>
             </div>
           </motion.div>
-
         ) : (
           // --- VIEW: CREATE OR JOIN TEAM ---
           <motion.div
@@ -336,14 +343,21 @@ export default function UserEventDashboard() {
                 <Sparkles className="w-3 h-3" />
                 <span>Team Formation Phase</span>
               </div>
-              <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Assemble Your Squad</h1>
-              <p className="text-zinc-400 text-sm">Create a new alliance or join an existing one to compete.</p>
+              <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
+                Assemble Your Squad
+              </h1>
+              <p className="text-zinc-400 text-sm">
+                Create a new alliance or join an existing one to compete.
+              </p>
             </div>
 
             {/* Tabs */}
             <div className="flex bg-zinc-950/60 p-1.5 rounded-xl border border-zinc-800 mb-8">
               <button
-                onClick={() => { setActiveTab("create"); setFeedback(null); }}
+                onClick={() => {
+                  setActiveTab("create");
+                  setFeedback(null);
+                }}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${
                   activeTab === "create"
                     ? "bg-zinc-800 text-white shadow-sm ring-1 ring-white/10"
@@ -353,7 +367,10 @@ export default function UserEventDashboard() {
                 <Plus className="w-4 h-4" /> Create Team
               </button>
               <button
-                onClick={() => { setActiveTab("join"); setFeedback(null); }}
+                onClick={() => {
+                  setActiveTab("join");
+                  setFeedback(null);
+                }}
                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${
                   activeTab === "join"
                     ? "bg-zinc-800 text-white shadow-sm ring-1 ring-white/10"
@@ -378,7 +395,9 @@ export default function UserEventDashboard() {
                     className="space-y-4"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Team Name</label>
+                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">
+                        Team Name
+                      </label>
                       <input
                         type="text"
                         placeholder="e.g. Quantum Solvers"
@@ -392,7 +411,11 @@ export default function UserEventDashboard() {
                       disabled={isSubmitting || !teamName}
                       className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2"
                     >
-                      {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create New Team"}
+                      {isSubmitting ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Create New Team"
+                      )}
                     </button>
                   </motion.form>
                 ) : (
@@ -406,7 +429,9 @@ export default function UserEventDashboard() {
                     className="space-y-4"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Join Code</label>
+                      <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">
+                        Join Code
+                      </label>
                       <div className="relative">
                         <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                         <input
@@ -423,7 +448,11 @@ export default function UserEventDashboard() {
                       disabled={isSubmitting || !joinCode}
                       className="w-full py-3 bg-white hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed text-zinc-950 font-medium rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
                     >
-                      {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Join Team"}
+                      {isSubmitting ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Join Team"
+                      )}
                     </button>
                   </motion.form>
                 )}
@@ -438,17 +467,20 @@ export default function UserEventDashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   className={`mt-6 p-3 rounded-lg flex items-center gap-3 text-sm border ${
-                    feedback.type === "success" 
-                      ? "bg-emerald-950/30 border-emerald-500/30 text-emerald-400" 
+                    feedback.type === "success"
+                      ? "bg-emerald-950/30 border-emerald-500/30 text-emerald-400"
                       : "bg-red-950/30 border-red-500/30 text-red-400"
                   }`}
                 >
-                  {feedback.type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+                  {feedback.type === "success" ? (
+                    <CheckCircle2 className="w-4 h-4" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4" />
+                  )}
                   {feedback.msg}
                 </motion.div>
               )}
             </AnimatePresence>
-
           </motion.div>
         )}
       </div>

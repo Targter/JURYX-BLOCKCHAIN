@@ -36,8 +36,8 @@ type WebContainerFS = {
 type User = {
   id: number
   email: string
-  role: Role
-  eventId:string
+  role?: Role
+  eventId?:string
   isPublic?: boolean
 }
 

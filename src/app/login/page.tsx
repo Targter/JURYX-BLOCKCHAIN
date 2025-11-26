@@ -92,14 +92,15 @@ export default function Login() {
 
       const response = await axios.post("/api/login", payload);
       const userData = response.data.user;
+      console.log("lognin response:", response.data);
 
       // Update Global Store
       setUser({
         id: userData.id,
         email: userData.email,
-        role: userData.role,
-        eventId: eventId || userData.eventId || "",
-        isPublic: userData.isPublic || false,
+        role: response.data.dbRole,
+        eventId: eventId || response.data.eventId || "",
+        isPublic: response.data.isPublic || false,
       });
 
       // Cleanup local storage

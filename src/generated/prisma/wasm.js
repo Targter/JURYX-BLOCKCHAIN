@@ -121,9 +121,15 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventRoleScalarFieldEnum = {
+  id: 'id',
   role: 'role',
-  isPublic: 'isPublic',
-  storageUrl: 'storageUrl',
+  userId: 'userId',
+  eventId: 'eventId',
   teamId: 'teamId'
 };
 
@@ -131,20 +137,27 @@ exports.Prisma.EventScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  isActive: 'isActive',
   createdAt: 'createdAt',
-  organizerId: 'organizerId'
+  participantCode: 'participantCode',
+  panelistCode: 'panelistCode'
 };
 
 exports.Prisma.RoundScalarFieldEnum = {
   id: 'id',
   name: 'name',
   order: 'order',
+  maxScore: 'maxScore',
+  description: 'description',
   eventId: 'eventId'
 };
 
 exports.Prisma.TeamScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  description: 'description',
+  storageUrl: 'storageUrl',
+  isPublic: 'isPublic',
   eventId: 'eventId'
 };
 
@@ -155,20 +168,6 @@ exports.Prisma.ScoreScalarFieldEnum = {
   roundId: 'roundId',
   panelistId: 'panelistId',
   teamId: 'teamId'
-};
-
-exports.Prisma.PanelistCodeScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  eventId: 'eventId',
-  userId: 'userId'
-};
-
-exports.Prisma.ParticipantCodeScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  eventId: 'eventId',
-  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -187,18 +186,17 @@ exports.Prisma.NullsOrder = {
 };
 exports.Role = exports.$Enums.Role = {
   ORGANIZER: 'ORGANIZER',
-  USER: 'USER',
+  PARTICIPANT: 'PARTICIPANT',
   PANELIST: 'PANELIST'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
+  EventRole: 'EventRole',
   Event: 'Event',
   Round: 'Round',
   Team: 'Team',
-  Score: 'Score',
-  PanelistCode: 'PanelistCode',
-  ParticipantCode: 'ParticipantCode'
+  Score: 'Score'
 };
 
 /**

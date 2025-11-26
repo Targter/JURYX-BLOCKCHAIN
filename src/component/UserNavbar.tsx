@@ -7,6 +7,7 @@ import { useUserDetails } from "@/hooks/useStore";
 
 export default function Navbar() {
   const { user, clearUser } = useUserDetails();
+  console.log("User in Navbar:", user);
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
@@ -63,7 +64,7 @@ export default function Navbar() {
       default: // PARTICIPANT
         return {
           path: `/event/${user?.eventId}/user/`,
-          label: "PARTICIPANTS",
+          label: "Event Hub",
           icon: (
             <svg
               className="w-4 h-4"
@@ -92,7 +93,8 @@ export default function Navbar() {
   };
 
   // Get current role configuration
-  const roleConfig = user ? getRoleConfig(user.role) : null;
+  // const roleConfig = user ? getRoleConfig(user?.role) : null;
+  const roleConfig = user && user.role ? getRoleConfig(user.role) : null;
 
   return (
     <nav className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50 font-sans">

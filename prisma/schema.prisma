@@ -14,136 +14,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ORGANIZER
-  USER
-  PANELIST
-}
-
-model User {
-  id         Int     @id @default(autoincrement())
-  email      String  @unique
-  password   String
-  role       Role
-  isPublic   Boolean @default(false)
-  storageUrl String?
-
-  // Organizer of events
-  organizedEvents Event[] @relation("UserOrganizedEvents")
-
-  // Participant team
-  team   Team?   @relation("TeamParticipants", fields: [teamId], references: [id])
-  teamId String?
-
-  // Panelist scores
-  scores          Score[]          @relation("UserPanelistScores")
-  PanelistCode    PanelistCode?
-  ParticipantCode ParticipantCode?
-}
-
-model Event {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
-
-  organizer   User @relation("UserOrganizedEvents", fields: [organizerId], references: [id])
-  organizerId Int
-
-  rounds          Round[]
-  teams           Team[]
-  panelistCode    PanelistCode?
-  participantCode ParticipantCode?
-}
-
-model Round {
-  id      String @id @default(cuid())
-  name    String
-  order   Int
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId String
-
-  scores Score[]
-}
-
-model Team {
-  id      String @id @default(cuid())
-  name    String
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId String
-
-  participants User[]  @relation("TeamParticipants")
-  scores       Score[]
-}
-
-model Score {
-  id      String  @id @default(cuid())
-  marks   Int
-  remarks String?
-
-  round   Round  @relation(fields: [roundId], references: [id])
-  roundId String
-
-  panelist   User @relation("UserPanelistScores", fields: [panelistId], references: [id])
-  panelistId Int
-
-  team   Team   @relation(fields: [teamId], references: [id])
-  teamId String
-}
-
-model PanelistCode {
-  id      String @id @default(cuid())
-  code    String @unique
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId String @unique
-  user    User?  @relation(fields: [userId], references: [id])
-  userId  Int?   @unique
-}
-
-model ParticipantCode {
-  id      String @id @default(cuid())
-  code    String @unique
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId String @unique
-  user    User?  @relation(fields: [userId], references: [id])
-  userId  Int?   @unique
-}
-
-// // 
-// my require answer panelistCode have multiple panelist and participant 
-// model Event {
-//   id              String          @id @default(cuid())
-//   name            String
-//   description     String?
-//   createdAt       DateTime        @default(now())
-
-//   organizer       User            @relation("UserOrganizedEvents", fields: [organizerId], references: [id])
-//   organizerId     Int
-
-//   rounds          Round[]
-//   teams           Team[]
-
-//   // Only one active code per event (panelist & participant)
-//   panelistCode    PanelistCode?   @relation("EventPanelistCode", fields: [panelistCodeId], references: [id])
-//   panelistCodeId  String?         @unique
-//   participantCode ParticipantCode? @relation("EventParticipantCode", fields: [participantCodeId], references: [id])
-//   participantCodeId String?        @unique
-// }
-
-// model PanelistCode {
-//   id      String @id @default(cuid())
-//   code    String @unique
-//   event   Event  @relation("EventPanelistCode", fields: [eventId], references: [id])
-//   eventId String
-//   users   User[] @relation("UserPanelistCodes") // Allow multiple users to have the same panelistCode
-// }
-
-// model ParticipantCode {
-//   id      String @id @default(cuid())
-//   code    String @unique
-//   event   Event  @relation("EventParticipantCode", fields: [eventId], references: [id])
-//   eventId String
-//   users   User[] @relation("UserParticipantCodes") // Allow multiple users to have the same participantCode
+// enum Role {
+//   ORGANIZER
+//   USER
+//   PANELIST
 // }
 
 // model User {
@@ -151,6 +25,7 @@ model ParticipantCode {
 //   email      String  @unique
 //   password   String
 //   role       Role
+
 //   isPublic   Boolean @default(false)
 //   storageUrl String?
 
@@ -158,19 +33,195 @@ model ParticipantCode {
 //   organizedEvents Event[] @relation("UserOrganizedEvents")
 
 //   // Participant team
+//   // teamId with in the Event by this we can handle...
 //   team   Team?   @relation("TeamParticipants", fields: [teamId], references: [id])
 //   teamId String?
 
 //   // Panelist scores
 //   scores          Score[]          @relation("UserPanelistScores")
-//   panelistCodes   PanelistCode[]   @relation("UserPanelistCodes")
-//   participantCodes ParticipantCode[] @relation("UserParticipantCodes")
+//   PanelistCode    PanelistCode?
+//   ParticipantCode ParticipantCode?
 // }
 
-// enum Role {
-//   ORGANIZER
-//   USER
-//   PANELIST
+// model Event {
+//   id          String   @id @default(cuid())
+//   name        String
+//   description String?
+//   createdAt   DateTime @default(now())
+
+//   organizer   User @relation("UserOrganizedEvents", fields: [organizerId], references: [id])
+//   organizerId Int
+
+//   rounds          Round[]
+//   teams           Team[]
+//   panelistCode    PanelistCode?
+//   participantCode ParticipantCode?
 // }
 
-// // 
+// model Round {
+//   id      String @id @default(cuid())
+//   name    String
+//   order   Int
+//   event   Event  @relation(fields: [eventId], references: [id])
+//   eventId String
+
+//   scores Score[]
+// }
+
+// model Team {
+//   id      String @id @default(cuid())
+//   name    String
+//   event   Event  @relation(fields: [eventId], references: [id])
+//   eventId String
+
+//   participants User[]  @relation("TeamParticipants")
+//   scores       Score[]
+// }
+
+// model Score {
+//   id      String  @id @default(cuid())
+//   marks   Int
+//   remarks String?
+
+//   round   Round  @relation(fields: [roundId], references: [id])
+//   roundId String
+
+//   panelist   User @relation("UserPanelistScores", fields: [panelistId], references: [id])
+//   panelistId Int
+
+//   team   Team   @relation(fields: [teamId], references: [id])
+//   teamId String
+// }
+
+// model PanelistCode {
+//   id      String @id @default(cuid())
+//   code    String @unique
+//   event   Event  @relation(fields: [eventId], references: [id])
+//   eventId String @unique
+//   user    User?  @relation(fields: [userId], references: [id])
+//   userId  Int?   @unique
+// }
+
+// model ParticipantCode {
+//   id      String @id @default(cuid())
+//   code    String @unique
+//   event   Event  @relation(fields: [eventId], references: [id])
+//   eventId String @unique
+//   user    User?  @relation(fields: [userId], references: [id])
+//   userId  Int?   @unique
+// }
+
+// 
+
+// 1. Keep User generic. They don't have a hardcoded role anymore.
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // A user can be part of many events with different roles
+  eventRoles EventRole[]
+}
+
+// 2. This table links a User to an Event and defines their Role for THAT event.
+model EventRole {
+  id   String @id @default(cuid())
+  role Role // ORGANIZER, PANELIT, PARTICIPANT
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  // IF they are a participant, they belong to a team
+  teamId String?
+  team   Team?   @relation(fields: [teamId], references: [id])
+
+  // IF they are a panelist, they give scores
+  scoresGiven Score[]
+
+  // CONSTRAINT: A user can only have ONE role entry per event.
+  // This also enforces "One team per event" because a user only has one EventRole row per event.
+  @@unique([userId, eventId])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  // Codes
+  participantCode String? @unique
+  panelistCode    String? @unique
+
+  rounds Round[]
+  teams  Team[]
+
+  // All users involved in this event (Organizers, Panelists, Participants)
+  participants EventRole[]
+}
+
+model Round {
+  id          String  @id @default(cuid())
+  name        String
+  order       Int
+  maxScore    Int     @default(100)
+  description String?
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  scores Score[]
+
+  @@unique([eventId, order])
+}
+
+model Team {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+
+  // Project submission
+  storageUrl String?
+  isPublic   Boolean @default(false)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  // Members are linked via EventRole
+  members EventRole[]
+
+  scores Score[]
+
+  @@unique([eventId, name])
+}
+
+model Score {
+  id      String  @id @default(cuid())
+  marks   Int
+  remarks String?
+
+  roundId String
+  round   Round  @relation(fields: [roundId], references: [id])
+
+  // The score is given by a Panelist (EventRole), not a raw User
+  panelistId String
+  panelist   EventRole @relation(fields: [panelistId], references: [id])
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id])
+
+  // Constraint: One score per panelist per round per team
+  @@unique([panelistId, roundId, teamId])
+}
+
+enum Role {
+  ORGANIZER
+  PARTICIPANT
+  PANELIST
+}
