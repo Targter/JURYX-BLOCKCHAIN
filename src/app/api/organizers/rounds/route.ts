@@ -191,6 +191,7 @@ async function isOrganizer(userId: number, eventId: string) {
     });
     return eventRole?.role === Role.ORGANIZER;
   } catch (error) {
+    console.error("Error checking organizer role:", error);
     return false;
   }
 }
@@ -259,6 +260,7 @@ export async function GET(req: NextRequest) {
     });
     return NextResponse.json({ rounds });
   } catch (error) {
+    console.error("Error fetching rounds:", error);
     return NextResponse.json({ error: "Failed to fetch rounds" }, { status: 500 });
   }
 }

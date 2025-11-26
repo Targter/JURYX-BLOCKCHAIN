@@ -1263,13 +1263,10 @@ import {
   SandpackCodeEditor,
   SandpackPreview,
 } from "@codesandbox/sandpack-react";
-import { nightOwl } from "@codesandbox/sandpack-themes";
 import {
   Loader2,
   Search,
   Trophy,
-  Code2,
-  Eye,
   Layout,
   CheckCircle2,
   Send,
@@ -1279,7 +1276,6 @@ import {
   Box,
   X,
   AlertCircle,
-  User,
 } from "lucide-react";
 
 // --- TYPES ---

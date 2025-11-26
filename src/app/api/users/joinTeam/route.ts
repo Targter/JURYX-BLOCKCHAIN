@@ -42,6 +42,8 @@
 // app/api/team/join/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/dbConfig/dbConfig";
+import { AxiosError } from "axios";
+import { Prisma } from "@/generated/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -84,8 +86,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ message: "Joined team successfully" });
-  } catch (err: any) {
-    console.error("Join Team Error:", err);
+  } catch (err: unknown) {
+     if (err instanceof Prisma.PrismaClientKnownRequestError) {
 
     // Prisma error P2025 means "Record to update not found"
     // This happens if the user hasn't joined the event using the participant code yet
@@ -95,6 +97,8 @@ export async function POST(req: NextRequest) {
         { status: 403 }
       );
     }
+  }
+    console.error(err);
 
     return NextResponse.json({ error: "Failed to join team" }, { status: 500 });
   }

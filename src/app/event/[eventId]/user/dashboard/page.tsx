@@ -255,8 +255,6 @@
 
 // export default Page;
 
-
-
 "use client";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
@@ -268,10 +266,9 @@ import {
   SandpackCodeEditor,
   SandpackPreview,
 } from "@codesandbox/sandpack-react";
-import { nightOwl } from "@codesandbox/sandpack-themes";
 import { useUploadStore } from "@/hooks/useStore";
 import { motion } from "framer-motion";
-import { Code2, Eye, Globe, RefreshCw, Search, Upload } from "lucide-react";
+import { Code2, Eye, Globe, RefreshCw, Search } from "lucide-react";
 import { ArrowLeft, TerminalSquare } from "lucide-react";
 import { Resizable } from "react-resizable";
 import "react-resizable/css/styles.css";
@@ -344,10 +341,10 @@ const Page = () => {
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [isLoading, setIsLoading] = useState(false);
   const [explorerWidth, setExplorerWidth] = useState(300); // Initial width for file explorer
-
-  const handleTabChange = (tab: "code" | "preview") => {
-    setActiveTab(tab);
-  };
+  console.log(isLoading);
+  // const handleTabChange = (tab: "code" | "preview") => {
+  //   setActiveTab(tab);
+  // };
 
   const shouldExcludeFile = (filePath: string): boolean => {
     const lowerCasePath = filePath.toLowerCase();

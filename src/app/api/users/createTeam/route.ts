@@ -30,6 +30,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/dbConfig/dbConfig";
+import { Prisma } from "@/generated/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -65,25 +66,29 @@ export async function POST(req: NextRequest) {
     // The 'connect' above automatically sets the teamId on the EventRole.
 
     return NextResponse.json({ team });
-  } catch (error: any) {
-    console.error("Create Team Error:", error);
+  } catch (err: unknown) {
+    console.error("Create Team Error:", err);
 
-    // Handle unique team name constraint violation
-    if (error.code === 'P2002') {
-      return NextResponse.json(
-        { error: "A team with this name already exists in this event." },
-        { status: 409 }
-      );
-    }
+    // 2. Proper Type Guard for Prisma Errors
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      // P2002: Unique constraint failed (Team name already exists in this event)
+      if (err.code === "P2002") {
+        return NextResponse.json(
+          { error: "A team with this name already exists in this event." },
+          { status: 409 }
+        );
+      }
 
-    // Handle case where User hasn't joined the event yet (EventRole doesn't exist)
-    if (error.code === 'P2025') {
-      return NextResponse.json(
-        { error: "User has not joined this event yet." },
-        { status: 404 }
-      );
-    }
-
+      // P2025: Record to connect not found (User hasn't joined the event yet)
+      if (err.code === "P2025") {
+        return NextResponse.json(
+          { error: "User has not joined this event yet." },
+          { status: 404 }
+        );
+      }
     return NextResponse.json({ error: "Failed to create team" }, { status: 500 });
   }
+  }
 }
+  // Use the Edge runtime in production (optional, remove if using Node serverless)
+  export const config = { runtime: "edge" };
