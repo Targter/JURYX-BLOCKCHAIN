@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Abhay Bansal - Full Stack & AI Developer",
     description:
-      "Explore Abhay's projects and skills in AI and full-stack development.",
+      "Creator of JuryX - Blockchain powered hackathon management platform. Explore Abhay's projects and skills in AI and full-stack development.",
     url: "https://abhaybansal.in",
     siteName: "Abhay Bansal Portfolio",
     type: "website",
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@Abcheckk",
-    creator: "@Abcheckk",
+    site: "@Abhahbansal001",
+    creator: "@Abhaybansal001",
     title: "Abhay Bansal - Full Stack AI Developer",
     description: "Full Stack AI projects, 3D web, and professional portfolio.",
     images: ["https://abhaybansal.in/abhay.jpg"],
