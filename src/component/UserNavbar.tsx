@@ -229,8 +229,7 @@ import {
   LogOut,
   LogIn,
   Terminal,
-  Code2, // Added icon for developer
-  ExternalLink,
+  Code2,
 } from "lucide-react";
 
 export default function Navbar() {

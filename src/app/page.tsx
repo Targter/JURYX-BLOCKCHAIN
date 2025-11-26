@@ -13,8 +13,6 @@ import {
   Github,
   Linkedin,
   Mail,
-  ExternalLink,
-  Cpu,
   Globe,
   Box,
   User,

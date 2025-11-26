@@ -190,7 +190,7 @@ function EventCard({
 }: {
   event: Event;
   index: number;
-  router: any;
+  router: ReturnType<typeof useRouter>;
 }) {
   const handleSelect = () => {
     localStorage.setItem("selectedEventId", event.id);
