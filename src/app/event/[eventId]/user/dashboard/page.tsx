@@ -431,7 +431,7 @@ const Page = () => {
 
   // --- Main Editor UI ---
   return (
-    <div className="flex flex-col h-[calc(100vh-6rem)] bg-zinc-950 font-sans text-zinc-300 overflow-hidden ">
+    <div className="flex flex-col h-[calc(100vh-5rem)] bg-zinc-950 font-sans text-zinc-300 overflow-hidden mt-16">
       {/* 1. Top Navigation Bar (Toolbar) */}
       <header className="h-14 shrink-0 border-b border-zinc-800 bg-zinc-950 flex items-center justify-between px-4 z-20">
         {/* Left: Branding & Back */}

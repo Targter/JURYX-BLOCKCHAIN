@@ -1602,7 +1602,7 @@ export default function PanelistDashboard() {
   }
 
   return (
-    <div className="h-[calc(100vh-70px)] w-full bg-zinc-950 text-zinc-300 font-sans selection:bg-indigo-500/30 flex flex-col overflow-hidden">
+    <div className="h-[calc(100vh-70px)] w-full bg-zinc-950 text-zinc-300 font-sans selection:bg-indigo-500/30 flex flex-col mt-16 overflow-hidden">
       {/* --- HEADER --- */}
       <header className="h-14 bg-zinc-900/80 border-b border-zinc-800 flex items-center justify-between px-4 shrink-0 backdrop-blur-md z-20">
         <div className="flex items-center gap-3">

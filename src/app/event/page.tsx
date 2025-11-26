@@ -5,194 +5,243 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import {
   Calendar,
-  ArrowRight,
+  ArrowUpRight,
   Search,
-  Hash,
-  Sparkles,
-  Loader2,
-  FileText,
+  Terminal,
+  Cpu,
+  Github,
+  Linkedin,
+  Layers,
+  User,
 } from "lucide-react";
 import axios from "axios";
 
-// --- Types based on your Prisma Model ---
+// --- Types ---
 interface Event {
   id: string;
   name: string;
   description: string | null;
-  createdAt: string; // Dates typically come as strings from JSON APIs
+  createdAt: string;
   organizerId: number;
 }
 
 export default function EventsPage() {
   const router = useRouter();
-
-  // State
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch Data
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get("/api/organizers/events/getallEvents");
         setEvents(response.data);
       } catch (error) {
-        console.error("Error fetching events:", error);
+        console.error("Error:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchEvents();
   }, []);
 
-  // Handle Event Selection
-  const handleSelectEvent = (eventId: string) => {
-    localStorage.setItem("selectedEventId", eventId);
-    router.push(`/login?eventId=${eventId}`);
-  };
-
-  // Filter Logic (Search Only)
   const filteredEvents = events.filter((event) => {
-    const searchLower = searchQuery.toLowerCase();
-    const nameMatch = event.name.toLowerCase().includes(searchLower);
-    const idMatch = event.id.toLowerCase().includes(searchLower);
-    return nameMatch || idMatch;
+    const q = searchQuery.toLowerCase();
+    return (
+      event.name.toLowerCase().includes(q) || event.id.toLowerCase().includes(q)
+    );
   });
 
-  // Date Formatter
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  return (
+    <div className="h-[calc(100vh-7rem)] bg-[#050505] text-neutral-200 font-mono selection:bg-teal-500/30 selection:text-teal-200 relative  mt-16 overflow-hidden">
+      {/* --- Industrial Grid Background --- */}
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#333_1px,transparent_1px),linear-gradient(to_bottom,#333_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+      </div>
+
+      {/* --- Main Layout --- */}
+      <div className="relative z-10 max-w-[1600px] mx-auto p-6 lg:p-12 flex flex-col h-screen">
+        {/* --- Header / HUD Top Bar --- */}
+        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12 border-b border-neutral-800 pb-6">
+          <div>
+            <div className="flex items-center gap-2 text-teal-500 mb-2">
+              <Terminal className="w-4 h-4" />
+              <span className="text-xs uppercase tracking-widest font-bold">
+                System_Ready
+              </span>
+            </div>
+            <h1 className="text-4xl font-bold text-white uppercase tracking-tighter">
+              Event_Registry<span className="text-neutral-600">.Log</span>
+            </h1>
+          </div>
+
+          {/* Search Input - HUD Style */}
+          <div className="relative group w-full md:w-96">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-teal-500 to-blue-600 rounded blur opacity-20 group-focus-within:opacity-75 transition duration-500"></div>
+            <div className="relative flex items-center bg-neutral-950 border border-neutral-800 p-1">
+              <div className="px-3 text-neutral-500">
+                <Search className="w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="QUERY_DB::EVENT_ID..."
+                className="w-full bg-transparent border-none text-sm text-teal-50 focus:ring-0 placeholder-neutral-600 h-10 uppercase"
+              />
+              <div className="px-2 text-[10px] text-neutral-600 border-l border-neutral-800">
+                ESC
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* --- Content Area --- */}
+        <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+          {loading ? (
+            <div className="h-64 flex flex-col items-center justify-center text-neutral-500 gap-4">
+              <Cpu className="w-12 h-12 animate-pulse text-teal-500/50" />
+              <span className="text-xs uppercase tracking-[0.2em]">
+                Initializing Data Stream...
+              </span>
+            </div>
+          ) : filteredEvents.length === 0 ? (
+            <div className="h-64 flex flex-col items-center justify-center border border-dashed border-neutral-800 text-neutral-600">
+              <span>NO_RECORDS_FOUND</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredEvents.map((event, i) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  index={i}
+                  router={router}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* --- "Powered By" Footer Badge --- */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="group flex items-center gap-4 bg-neutral-900/80 border border-neutral-800 backdrop-blur-md px-4 py-3 rounded-none clip-path-slant hover:border-teal-500/30 transition-colors"
+          style={{
+            clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 40%)",
+          }}
+        >
+          <div className="flex flex-col text-right mr-2">
+            <span className="text-[9px] text-neutral-500 uppercase tracking-wider font-bold">
+              Architected By
+            </span>
+            <span className="text-xs text-white font-bold tracking-tight group-hover:text-teal-400 transition-colors">
+              ABHAY BANSAL
+            </span>
+          </div>
+
+          <div className="h-8 w-px bg-neutral-800"></div>
+
+          <div className="flex gap-3">
+            <a
+              href="https://abhaybansal.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-400 hover:text-white transition-colors hover:scale-110 transform"
+              title="Portfolio"
+            >
+              <User className="w-5 h-5" />
+            </a>
+            <a
+              href="https://github.com/targter"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-400 hover:text-white transition-colors hover:scale-110 transform"
+              title="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+
+            <a
+              href="https://linkedin.com/in/abhaybansal001"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-400 hover:text-blue-400 transition-colors hover:scale-110 transform"
+              title="LinkedIn"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+// --- Sub-Component: Minimalist Card ---
+function EventCard({
+  event,
+  index,
+  router,
+}: {
+  event: Event;
+  index: number;
+  router: any;
+}) {
+  const handleSelect = () => {
+    localStorage.setItem("selectedEventId", event.id);
+    router.push(`/login?eventId=${event.id}`);
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-300 font-sans selection:bg-indigo-500/30">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-900/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-900/10 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05 }}
+      onClick={handleSelect}
+      className="group relative bg-neutral-900 border border-neutral-800 p-5 cursor-pointer hover:bg-neutral-800/50 transition-all duration-300 overflow-hidden"
+    >
+      {/* Hover Line Effect */}
+      <div className="absolute top-0 left-0 w-full h-0.5 bg-teal-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
+
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex flex-col">
+          <span className="text-[10px] text-neutral-500 font-mono mb-1">
+            ID: {event.id.slice(0, 8).toUpperCase()}
+          </span>
+          <h3 className="text-lg font-bold text-white leading-tight group-hover:text-teal-400 transition-colors">
+            {event.name}
+          </h3>
+        </div>
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity -mr-2 -mt-2">
+          <ArrowUpRight className="w-5 h-5 text-teal-500" />
+        </div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/50 border border-zinc-800 text-xs font-medium text-indigo-400 mb-6 backdrop-blur-md">
-            <Sparkles className="w-3 h-3" />
-            <span>Live Hackathons</span>
+      <div className="h-px w-full bg-neutral-800 mb-4 group-hover:bg-neutral-700 transition-colors"></div>
+
+      <div className="flex items-end justify-between">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2 text-[10px] text-neutral-400 uppercase tracking-wider">
+            <Calendar className="w-3 h-3" />
+            {new Date(event.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">
-            Explore Active{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
-              Events
-            </span>
-          </h1>
-          <p className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed">
-            Find your next challenge. Select an event to seamlessly login and
-            start building or judging.
-          </p>
-        </motion.div>
-
-        {/* Controls: Search */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="flex justify-center mb-12"
-        >
-          <div className="relative w-full max-w-lg">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-            <input
-              type="text"
-              placeholder="Search by event name or ID..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-900/40 border border-zinc-800 text-zinc-200 text-sm rounded-2xl pl-10 pr-4 py-3 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all placeholder-zinc-600 backdrop-blur-sm"
-            />
+          <div className="flex items-center gap-2 text-[10px] text-neutral-500">
+            <Layers className="w-3 h-3" />
+            ACTIVE_NODE
           </div>
-        </motion.div>
+        </div>
 
-        {/* Events Grid */}
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-32">
-            <Loader2 className="w-10 h-10 text-indigo-500 animate-spin mb-4" />
-            <p className="text-zinc-500 text-sm">Loading ecosystem events...</p>
-          </div>
-        ) : filteredEvents.length === 0 ? (
-          <div className="text-center py-32 border border-dashed border-zinc-800 rounded-3xl bg-zinc-900/20">
-            <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800">
-              <Calendar className="w-8 h-8 text-zinc-600" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">
-              No Events Found
-            </h3>
-            <p className="text-zinc-500 text-sm">
-              Try adjusting your search terms.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEvents.map((event, index) => (
-              <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300"
-              >
-                {/* Card Header */}
-                <div className="p-6 flex-grow">
-                  <div className="flex justify-between items-center mb-4">
-                    {/* Date Badge */}
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-950 border border-zinc-800 text-zinc-400 text-[10px] uppercase font-bold tracking-wider">
-                      <Calendar className="w-3 h-3" />
-                      {formatDate(event.createdAt)}
-                    </div>
-
-                    {/* ID Badge */}
-                    <div className="flex items-center gap-1 px-2 py-1 rounded bg-zinc-950/50 border border-zinc-800/50 text-zinc-500 font-mono text-[10px]">
-                      <Hash className="w-3 h-3" />
-                      {event.id.slice(0, 8)}...
-                    </div>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">
-                    {event.name}
-                  </h3>
-
-                  <div className="flex items-start gap-2 text-sm text-zinc-400 leading-relaxed">
-                    <FileText className="w-4 h-4 text-zinc-600 shrink-0 mt-0.5" />
-                    <p className="line-clamp-3">
-                      {event.description || "No description provided."}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Footer Action */}
-                <div className="p-4 pt-0 mt-auto">
-                  <div className="h-px w-full bg-gradient-to-r from-transparent via-zinc-800 to-transparent mb-4"></div>
-                  <button
-                    onClick={() => handleSelectEvent(event.id)}
-                    className="w-full py-3 bg-white text-zinc-950 font-bold text-sm rounded-xl hover:bg-indigo-50 transition-colors flex items-center justify-center gap-2 group/btn shadow-lg shadow-white/5"
-                  >
-                    Select Event
-                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        <div className="w-2 h-2 bg-neutral-800 group-hover:bg-teal-500 transition-colors rounded-full shadow-[0_0_10px_rgba(20,184,166,0)] group-hover:shadow-[0_0_10px_rgba(20,184,166,0.8)]"></div>
       </div>
-    </div>
+    </motion.div>
   );
 }

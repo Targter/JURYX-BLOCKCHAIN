@@ -34,7 +34,9 @@ export default async function RootLayout({
       {/* ${geistSans.variable} ${geistMono.variable} */}
       <body className={` antialiased`}>
         <AuthProvider>
-          <Navbar />
+          <div className="">
+            <Navbar />
+          </div>
           {children}{" "}
         </AuthProvider>
       </body>

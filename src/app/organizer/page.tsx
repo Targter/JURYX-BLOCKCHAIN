@@ -683,7 +683,7 @@ export default function OrganizerPage() {
   const subTextStyle = "text-xs text-zinc-500 mb-4 leading-relaxed";
 
   return (
-    <div className="h-[calc(100vh-70px)] bg-zinc-950 text-zinc-300 font-sans selection:bg-indigo-500/30 overflow-hidden">
+    <div className="h-[calc(100vh-70px)] bg-zinc-950 text-zinc-300 font-sans selection:bg-indigo-500/30 overflow-hidden mt-16">
       <main className="h-full p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 max-w-[1920px] mx-auto">
         {/* COLUMN 1: Event Structure (Sidebar) */}
         <div className="lg:col-span-3 flex flex-col gap-4 h-full min-h-0">

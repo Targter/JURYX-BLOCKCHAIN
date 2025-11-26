@@ -114,7 +114,7 @@ export default function ProjectUploadPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-70px)] bg-zinc-950 text-zinc-300 font-sans overflow-hidden relative flex selection:bg-indigo-500/30">
+    <div className="h-[100vh] mt-18 bg-zinc-950 text-zinc-300 font-sans overflow-hidden relative flex selection:bg-indigo-500/30">
       {/* --- 1. Background (Grid + Vignette - No Purple Blobs) --- */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] opacity-100" />
