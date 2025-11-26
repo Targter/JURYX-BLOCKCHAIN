@@ -42,7 +42,6 @@
 // app/api/team/join/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/dbConfig/dbConfig";
-import { AxiosError } from "axios";
 import { Prisma } from "@/generated/prisma";
 
 export async function POST(req: NextRequest) {
