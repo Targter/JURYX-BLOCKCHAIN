@@ -481,7 +481,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useUserDetails } from "@/hooks/useStore";
 import {
   Loader2,
@@ -489,7 +489,6 @@ import {
   Trash2,
   Edit2,
   Save,
-  X,
   Trophy,
   ListChecks,
   AlertCircle,
@@ -644,6 +643,7 @@ export default function OrganizerPage() {
       setEditingId(null);
     } catch (error) {
       alert("Failed to update round");
+      console.log(error);
     } finally {
       setIsSaving(false);
     }
@@ -657,8 +657,17 @@ export default function OrganizerPage() {
         `/api/organizers/rounds?roundId=${roundId}&eventId=${selectedEvent}&userId=${user.id}`
       );
       fetchRounds();
-    } catch (error: any) {
-      alert(error.response?.data?.error || "Failed to delete round");
+    } catch (error: unknown) {
+      // alert(error.response?.data?.error || "Failed to delete round");
+
+      if (error instanceof AxiosError) {
+        console.log(
+          error.response?.data?.message ||
+            "Login failed. Please check your credentials."
+        );
+      } else {
+        console.log("Login failed. Please check your credentials.");
+      }
     }
   };
 

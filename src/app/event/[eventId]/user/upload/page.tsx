@@ -20,7 +20,6 @@ import {
   Database,
   Clock,
   ArrowRight,
-  GitBranch,
   ShieldCheck,
   Upload,
   Maximize2,

@@ -332,7 +332,7 @@ const UserUpload = () => {
               Select Project Root
             </h2>
             <p className="text-zinc-400 text-xs max-w-[260px] mx-auto leading-relaxed">
-              Upload your project folder. We'll auto-compress and ignore
+              Upload your project folder. We&apos;ll auto-compress and ignore
               node_modules.
             </p>
           </div>
