@@ -552,7 +552,7 @@ export default function OrganizerPage() {
 
   useEffect(() => {
     fetchEvents();
-  }, [user]);
+  }, [user, getEvents.length]);
 
   // --- 2. Fetch Rounds & Codes when Event Selected ---
   const fetchRounds = async () => {
@@ -768,7 +768,7 @@ export default function OrganizerPage() {
                     {ev.name}
                   </span>
                   <span className="text-[9px] bg-zinc-900 px-1.5 py-0.5 rounded text-zinc-500 font-mono">
-                    #{ev.id.slice(-4)}
+                    #{ev?.id?.slice(-4) ?? ""}
                   </span>
                 </button>
               ))}

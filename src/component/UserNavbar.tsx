@@ -43,7 +43,7 @@ export default function Navbar() {
         };
       case "PANELIST":
         return {
-          path: "/panelist/dashboard",
+          path: `/event/${user?.eventId}/panelist/`,
           label: "Judging Console",
           icon: (
             <svg

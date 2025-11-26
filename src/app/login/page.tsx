@@ -56,6 +56,36 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // ... inside Login() function, after your state definitions ...
+
+  // [ADD THIS BLOCK] Auto-fill dummy credentials based on selected Role
+  useEffect(() => {
+    const setDefaultCredentials = () => {
+      if (role === "ORGANIZER") {
+        setEmail("abhay-org@mail");
+        setPassword("abhay");
+        // Clear codes as they aren't needed for organizer
+        setCode("");
+        setEventId("");
+      } else if (role === "PANELIST") {
+        setEmail("abhay-panel@mail");
+        setPassword("abhay");
+        setCode("696049"); // Dummy Panelist Code
+        // Only set default ID if URL didn't provide one
+        setEventId((prev) => prev || "cmif6ebw80000oa3gy5rd8htg");
+      } else {
+        // USER
+        setEmail("abhay-participant@mail");
+        setPassword("abhay");
+        setCode("B3526C"); // Dummy Participant Code
+        setEventId((prev) => prev || "cmif6ebw80000oa3gy5rd8htg");
+      }
+    };
+
+    setDefaultCredentials();
+  }, [role]); // Re-run whenever the user clicks a different Role Tab
+
+  // ... rest of your code ...
   // --- Effect: Auto-fill Event ID ---
   useEffect(() => {
     // const queryEventId = searchParams.get("eventId");
