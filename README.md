@@ -72,7 +72,7 @@ A comprehensive dashboard to:
 
 | Landing Page | Judge Dashboard |
 | :---: | :---: |
-| ![Landing](https://via.placeholder.com/600x300?text=JuryX+Landing) | ![Dashboard](https://via.placeholder.com/600x300?text=Judge+View) |
+| ![Landing](https://github.com/Targter/JURYX-BLOCKCHAIN/blob/e3a98d00b3a7052a05e4639f5694f05cde666aca/public/LANDING_PAGE.jpg) | ![Dashboard](https://via.placeholder.com/600x300?text=Judge+View) |
 
 ---
 
