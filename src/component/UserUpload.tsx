@@ -259,15 +259,15 @@ const UserUpload = () => {
       // Upload
       try {
         console.log("Uploading to server...");
-        // const response = await axios.post(
-        //   "/api/users/userFileUpload",
-        //   formData,
-        //   {
-        //     headers: { "Content-Type": "multipart/form-data" },
-        //   }
-        // );
+        const response = await axios.post(
+          "/api/users/userFileUpload",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
 
-        // console.log("Upload response:", response);
+        console.log("Upload response:", response);
       } catch (error) {
         console.error(
           "Error during file upload error while uploading.. the files... on the cloud...:",
