@@ -64,18 +64,18 @@
 // }
 
 
-import { S3Client } from "@aws-sdk/client-s3";
+// import { S3Client } from "@aws-sdk/client-s3";
 // import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 // import { prisma } from "@dbConfig/dbConfig";
 import { NextRequest, NextResponse } from "next/server";
 
-const s3 = new S3Client({
-  region: process.env.AWS_REGION!,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+// const s3 = new S3Client({
+//   region: process.env.AWS_REGION!,
+//   credentials: {
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+//   },
+// });
 
 export async function POST(request: NextRequest) {
   try {
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     // 
     console.log("Buffer size:", buffer.length);
     console.log("Bucket name:", bucketName);
-    console.log("Preparing to handle file upload...",s3);
+    // console.log("Preparing to handle file upload...",s3);
     // // 1. Find the User's Team via EventRole
     // // We need to find which team this user belongs to FOR THIS SPECIFIC EVENT
     // const eventRole = await prisma.eventRole.findUnique({
