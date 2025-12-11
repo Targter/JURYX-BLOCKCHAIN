@@ -122,25 +122,25 @@ export async function POST(request: NextRequest) {
     const team = eventRole.team;
     console.log("User's team:", team);
     // 2. If Team already has a file, delete it from S3
-    if (team.storageUrl) {
-      try {
-        // Safe extraction of the key from the full URL
-        const fileUrlObj = new URL(team.storageUrl);
-        // The pathname usually starts with '/', so we strip it to get the Key
-        const existingKey = fileUrlObj.pathname.substring(1); 
-        const existingKey2 = decodeURIComponent(existingKey); 
-        console.log("Existing file key to delete.....:", existingKey2);
-        console.log("Existing file key to delete.....:", existingKey);
+    // if (team.storageUrl) {
+    //   try {
+    //     // Safe extraction of the key from the full URL
+    //     const fileUrlObj = new URL(team.storageUrl);
+    //     // The pathname usually starts with '/', so we strip it to get the Key
+    //     const existingKey = fileUrlObj.pathname.substring(1); 
+    //     const existingKey2 = decodeURIComponent(existingKey); 
+    //     console.log("Existing file key to delete.....:", existingKey2);
+    //     console.log("Existing file key to delete.....:", existingKey);
 
-        await s3.send(new DeleteObjectCommand({
-          Bucket: bucketName,
-          Key: existingKey2,
-        }));
-        console.log("Previous file deleted:", existingKey2);
-      } catch (e) {
-        console.warn("Failed to delete old file (might not exist):", e);
-      }
-    }
+    //     await s3.send(new DeleteObjectCommand({
+    //       Bucket: bucketName,
+    //       Key: existingKey2,
+    //     }));
+    //     console.log("Previous file deleted:", existingKey2);
+    //   } catch (e) {
+    //     console.warn("Failed to delete old file (might not exist):", e);
+    //   }
+    // }
 
     // 3. Upload new file
     // Organized by Event -> Team -> File
