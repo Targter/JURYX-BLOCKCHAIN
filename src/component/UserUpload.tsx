@@ -259,19 +259,19 @@ const UserUpload = () => {
       // Upload
       try {
         console.log("Uploading to server...");
-        // const response = await axios.post(
-        //   "/api/users/userFileUpload",
-        //   formData,
-        //   {
-        //     headers: { "Content-Type": "multipart/form-data" },
-        //   }
-        // );
+        const response = await axios.post(
+          "/api/users/userFileUpload",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
 
-        const response = await axios.post("/api/users/fileUpload", formData
-        //   , {
-        //   headers: { "Content-Type": "multipart/form-data" },
-        // }
-      );
+        //   const response = await axios.post("/api/users/fileUpload", formData
+        //   //   , {
+        //   //   headers: { "Content-Type": "multipart/form-data" },
+        //   // }
+        // );
 
         console.log("Upload response:", response);
       } catch (error) {

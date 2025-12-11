@@ -443,7 +443,7 @@ const Page = () => {
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <div className="h-4 w-[1px] bg-zinc-800"></div>
+          <div className="h-4 w-[2px] bg-zinc-800"></div>
           <div className="flex items-center gap-2">
             <TerminalSquare className="w-4 h-4 text-indigo-500" />
             <span className="text-sm font-semibold text-zinc-200 tracking-tight">
@@ -504,7 +504,7 @@ const Page = () => {
             // visibleFiles: ["/App.jsx"],
           }}
         >
-          <SandpackLayout className="h-full border-none bg-zinc-950 !rounded-none overflow-hidden">
+          <SandpackLayout className="h-full border-none bg-zinc-950 rounded-none! overflow-hidden">
             {activeTab === "code" ? (
               <div className="flex w-full h-full">
                 {/* Custom Resizable Sidebar */}
