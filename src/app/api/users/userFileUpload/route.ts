@@ -64,7 +64,8 @@
 // }
 
 
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
+// import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 import { prisma } from "@dbConfig/dbConfig";
 import { NextRequest, NextResponse } from "next/server";
@@ -149,13 +150,13 @@ export async function POST(request: NextRequest) {
     console.log(eventId, safeTeamName);
     const fileName = `projects/${eventId}/${safeTeamName}/${Date.now()}-project.zip`;
     
-    await s3.send(new PutObjectCommand({
-      Bucket: bucketName,
-      Key: fileName,
-      Body: buffer,
-      ContentType: file.type,
-      // ACL: 'public-read', // Uncomment if bucket is not public by policy
-    }));  
+    // await s3.send(new PutObjectCommand({
+    //   Bucket: bucketName,
+    //   Key: fileName,
+    //   Body: buffer,
+    //   ContentType: file.type,
+    //   // ACL: 'public-read', // Uncomment if bucket is not public by policy
+    // }));  
     
     const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
     console.log("File uploaded to S3 at URL:", fileUrl);
