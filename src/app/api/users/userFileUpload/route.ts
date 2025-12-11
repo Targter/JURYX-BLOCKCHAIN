@@ -93,8 +93,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const bucketName = process.env.AWS_S3_BUCKET_NAME!;
+    // const buffer = Buffer.from(await file.arrayBuffer());
+    // const bucketName = process.env.AWS_S3_BUCKET_NAME!;
 
     // 1. Find the User's Team via EventRole
     // We need to find which team this user belongs to FOR THIS SPECIFIC EVENT
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     console.log("Safe team name for S3 key:", safeTeamName);
     console.log("Uploading new file to S3...");
     console.log(eventId, safeTeamName);
-    const fileName = `projects/${eventId}/${safeTeamName}/${Date.now()}-project.zip`;
+    // const fileName = `projects/${eventId}/${safeTeamName}/${Date.now()}-project.zip`;
     
     // await s3.send(new PutObjectCommand({
     //   Bucket: bucketName,
@@ -158,16 +158,16 @@ export async function POST(request: NextRequest) {
     //   // ACL: 'public-read', // Uncomment if bucket is not public by policy
     // }));  
     
-    const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
-    console.log("File uploaded to S3 at URL:", fileUrl);
-    // 4. Update the TEAM (not the User)
-    await prisma.team.update({
-      where: { id: team.id },
-      data: { storageUrl: fileUrl },
-    });
+    // const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+    // console.log("File uploaded to S3 at URL:", fileUrl);
+    // // 4. Update the TEAM (not the User)
+    // await prisma.team.update({
+    //   where: { id: team.id },
+    //   data: { storageUrl: fileUrl },
+    // });
     console.log("Team storageUrl updated in DB.");
 
-    return NextResponse.json({ success: true, url: fileUrl });
+    return NextResponse.json({ success: true, url: team.storageUrl });
 
   } catch (err) {
     console.error("Upload error:", err);
