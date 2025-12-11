@@ -267,9 +267,11 @@ const UserUpload = () => {
         //   }
         // );
 
-        const response = await axios.post("/api/users/fileUpload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const response = await axios.post("/api/users/fileUpload", formData
+        //   , {
+        //   headers: { "Content-Type": "multipart/form-data" },
+        // }
+      );
 
         console.log("Upload response:", response);
       } catch (error) {
