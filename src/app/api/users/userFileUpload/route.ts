@@ -94,8 +94,15 @@ export async function POST(request: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const bucketName = process.env.AWS_S3_BUCKET_NAME!;
+    console.log(process.env.AWS_S3_BUCKET_NAME);
+    console.log(process.env.AWS_REGION);
+    console.log(process.env.AWS_ACCESS_KEY_ID);
+    console.log(process.env.AWS_SECRET_ACCESS_KEY);
+
+    // 
     console.log("Buffer size:", buffer.length);
     console.log("Bucket name:", bucketName);
+    console.log("Preparing to handle file upload...",s3);
     // // 1. Find the User's Team via EventRole
     // // We need to find which team this user belongs to FOR THIS SPECIFIC EVENT
     // const eventRole = await prisma.eventRole.findUnique({
