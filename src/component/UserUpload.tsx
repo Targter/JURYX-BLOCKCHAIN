@@ -235,11 +235,12 @@ const UserUpload = () => {
     "idle" | "uploading" | "success"
   >("idle");
   const [dragActive, setDragActive] = useState(false);
-
+  console.log("eventId:", eventId);
+  console.log("User Upload Page loaded.......");
   // --- Core Upload Logic (Reusable) ---
   const processFiles = async (fileList: File[]) => {
     if (!fileList || fileList.length === 0) return;
-
+    console.log("Processing files:", fileList);
     setLoading(true);
     setUploadStatus("uploading");
 
@@ -265,7 +266,7 @@ const UserUpload = () => {
       // Update State & Redirect
       setFiles(fileList);
       setUploadStatus("success");
-
+      console.log("Upload successful, redirecting...");
       // Small delay for UX so user sees the success checkmark
       setTimeout(() => {
         router.push(`/event/${eventId}/user/dashboard`);
