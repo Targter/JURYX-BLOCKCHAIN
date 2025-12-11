@@ -127,12 +127,15 @@ export async function POST(request: NextRequest) {
         const fileUrlObj = new URL(team.storageUrl);
         // The pathname usually starts with '/', so we strip it to get the Key
         const existingKey = fileUrlObj.pathname.substring(1); 
-        
+        const existingKey2 = decodeURIComponent(existingKey); 
+        console.log("Existing file key to delete.....:", existingKey2);
+        console.log("Existing file key to delete.....:", existingKey);
+
         await s3.send(new DeleteObjectCommand({
           Bucket: bucketName,
-          Key: existingKey,
+          Key: existingKey2,
         }));
-        console.log("Previous file deleted:", existingKey);
+        console.log("Previous file deleted:", existingKey2);
       } catch (e) {
         console.warn("Failed to delete old file (might not exist):", e);
       }
@@ -141,8 +144,11 @@ export async function POST(request: NextRequest) {
     // 3. Upload new file
     // Organized by Event -> Team -> File
     const safeTeamName = team.name.replace(/[^a-zA-Z0-9]/g, "_");
+    console.log("Safe team name for S3 key:", safeTeamName);
+    console.log("Uploading new file to S3...");
+    console.log(eventId, safeTeamName);
     const fileName = `projects/${eventId}/${safeTeamName}/${Date.now()}-project.zip`;
-
+    
     await s3.send(new PutObjectCommand({
       Bucket: bucketName,
       Key: fileName,
